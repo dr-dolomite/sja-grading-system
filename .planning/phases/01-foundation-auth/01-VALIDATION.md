@@ -3,7 +3,7 @@ phase: 1
 slug: foundation-auth
 status: draft
 nyquist_compliant: false
-wave_0_complete: false
+wave_0_complete: false  # Addressed by Plan 01-00-PLAN.md
 created: 2026-03-30
 ---
 

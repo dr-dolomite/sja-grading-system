@@ -29,8 +29,9 @@
   2. A user can log in with their credentials and see a dashboard appropriate to their role
   3. A logged-in user's session persists across browser refresh without needing to log in again
   4. A user can reset their own password
-**Plans:** 3 plans
+**Plans:** 4 plans
 Plans:
+- [ ] 01-00-PLAN.md — Test infrastructure (vitest, config, setup, stub test files)
 - [ ] 01-01-PLAN.md — Database & auth infrastructure (Prisma 7, session, DAL, proxy, Server Actions)
 - [ ] 01-02-PLAN.md — Login page and forced password change UI
 - [ ] 01-03-PLAN.md — Dashboard shell with role sections and admin user management
