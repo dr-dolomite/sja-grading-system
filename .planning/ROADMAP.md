@@ -9,7 +9,7 @@
 
 ## Phases
 
-- [ ] **Phase 1: Foundation & Auth** - Users can securely log in to role-appropriate dashboards; database and auth layer established
+- [x] **Phase 1: Foundation & Auth** - Users can securely log in to role-appropriate dashboards; database and auth layer established (completed 2026-03-30)
 - [ ] **Phase 2: School Structure** - Admin can configure the full school structure (years, quarters, grade levels, sections, strands, subjects)
 - [ ] **Phase 3: Enrollment & Assignment** - Students are enrolled and teachers/advisers are assigned to sections and subjects
 - [ ] **Phase 4: Grading Engine** - Teachers can define activities, enter raw scores, and the system computes accurate DepEd-compliant grades
@@ -103,7 +103,7 @@
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation & Auth | 3/4 | In Progress|  |
+| 1. Foundation & Auth | 4/4 | Complete   | 2026-03-30 |
 | 2. School Structure | 0/0 | Not started | - |
 | 3. Enrollment & Assignment | 0/0 | Not started | - |
 | 4. Grading Engine | 0/0 | Not started | - |

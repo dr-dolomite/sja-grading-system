@@ -9,7 +9,7 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Authentication
 
-- [ ] **AUTH-01**: Admin can create user accounts with assigned roles (Subject Teacher, Adviser, Principal, Registrar, Admin)
+- [x] **AUTH-01**: Admin can create user accounts with assigned roles (Subject Teacher, Adviser, Principal, Registrar, Admin)
 - [x] **AUTH-02**: User can log in with credentials and see role-appropriate dashboard
 - [x] **AUTH-03**: User can reset their own password
 - [x] **AUTH-04**: User session persists across browser refresh
@@ -100,7 +100,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| AUTH-01 | Phase 1 | Pending |
+| AUTH-01 | Phase 1 | Complete |
 | AUTH-02 | Phase 1 | Complete |
 | AUTH-03 | Phase 1 | Complete (01-01) |
 | AUTH-04 | Phase 1 | Complete (01-01) |
