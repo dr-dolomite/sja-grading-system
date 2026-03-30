@@ -23,6 +23,17 @@ async function main() {
   console.log("  Employee ID: admin")
   console.log("  Password: Admin@1234")
   console.log("  (Must change password on first login)")
+
+  // Seed default strands (D-20)
+  const defaultStrands = ["STEM", "ABM", "HUMSS", "GAS"]
+  for (const name of defaultStrands) {
+    await prisma.strand.upsert({
+      where: { name },
+      update: {},
+      create: { name },
+    })
+  }
+  console.log("Seeded default strands: STEM, ABM, HUMSS, GAS")
 }
 
 main()
