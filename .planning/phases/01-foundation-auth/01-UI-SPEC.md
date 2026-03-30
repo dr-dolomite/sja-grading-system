@@ -158,6 +158,8 @@ All components from the existing scaffold. No new shadcn components need to be a
 
 **Layout:** Full-viewport split grid — left column (form), right column (decorative).
 
+**Focal point:** "Sign in" button — the primary CTA anchors the eye after reading the two fields above it.
+
 ```
 ┌──────────────────┬──────────────────┐
 │  Logo + App name │                  │
@@ -178,6 +180,8 @@ All components from the existing scaffold. No new shadcn components need to be a
 ### 2. Forced Password Change Page (`/change-password`)
 
 **Layout:** Centered single-column card. No sidebar. No decorative panel.
+
+**Focal point:** "Set new password" button — the sole action on a captive screen; draws the eye after the two password fields.
 
 ```
 ┌────────────────────────────────────┐
@@ -200,6 +204,8 @@ All components from the existing scaffold. No new shadcn components need to be a
 
 **Layout:** Sidebar + inset content area. Matches existing template structure.
 
+**Focal point:** Role-section cards grid — the first actionable content visible after login; the sidebar is navigational scaffolding, not the primary focus.
+
 ```
 ┌────────────┬──────────────────────────────────┐
 │            │  [SiteHeader]                    │
@@ -219,6 +225,8 @@ All components from the existing scaffold. No new shadcn components need to be a
 ### 4. Admin: User Management (`/dashboard/users`)
 
 **Layout:** Full-width within the sidebar shell. Sheet slide-in for create/edit.
+
+**Focal point:** User table — the primary data surface; the "Create account" button in the page header is secondary.
 
 - User table: full-width within `SidebarInset` content area
 - "Create user" action: `Button` variant="default" in page header area, triggers `Sheet` from right
@@ -308,7 +316,7 @@ Remove "Billing" and "Notifications" from the `NavUser` dropdown template — no
 | Confirmation | Inline confirmation within the row or a small `Sheet` — no modal dialog component installed |
 | Copy: confirm prompt | "Reset [Full Name]'s password? They will be required to set a new password on next login." |
 | CTA label | "Reset password" (destructive Button variant) |
-| Cancel | "Cancel" (outline Button variant) |
+| Dismiss | "Keep current password" (outline Button variant) |
 | Success | Toast: "Password reset. [Name] will be prompted to set a new password on next login." |
 
 ---
@@ -345,10 +353,10 @@ Remove "Billing" and "Notifications" from the `NavUser` dropdown template — no
 
 ### Destructive Actions in This Phase
 
-| Action | Trigger | Confirmation Approach | Confirm CTA | Cancel CTA |
-|--------|---------|----------------------|-------------|------------|
-| Reset user password | "Reset password" button in user table row | Inline confirmation text in the same row area or right-side Sheet | "Reset password" (destructive variant) | "Cancel" (outline variant) |
-| Disable account | "Disable" button in user table row (AUTH-01 scope) | Same inline/Sheet confirmation pattern | "Disable account" (destructive variant) | "Cancel" (outline variant) |
+| Action | Trigger | Confirmation Approach | Confirm CTA | Dismiss CTA |
+|--------|---------|---------------------- |-------------|-------------|
+| Reset user password | "Reset password" button in user table row | Inline confirmation text in the same row area or right-side Sheet | "Reset password" (destructive variant) | "Keep current password" (outline variant) |
+| Disable account | "Disable" button in user table row (AUTH-01 scope) | Same inline/Sheet confirmation pattern | "Disable account" (destructive variant) | "Keep account active" (outline variant) |
 
 **Note:** No `AlertDialog` component is installed. Use `Sheet` or inline row state for confirmations. Do not add `AlertDialog` for Phase 1.
 
