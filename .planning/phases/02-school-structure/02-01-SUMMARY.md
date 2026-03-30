@@ -109,6 +109,18 @@ None — no external service configuration required.
 - The 17 todo stubs in `tests/actions/school-structure.test.ts` define the exact behaviors Plan 02 must implement and test
 - No blockers — schema-first approach means data contracts are locked
 
+## Self-Check: PASSED
+
+- FOUND: prisma/schema.prisma
+- FOUND: lib/subject-type-presets.ts
+- FOUND: tests/setup.ts
+- FOUND: tests/lib/subject-type-presets.test.ts
+- FOUND: tests/actions/school-structure.test.ts
+- FOUND: .planning/phases/02-school-structure/02-01-SUMMARY.md
+- FOUND commit: f24495a (feat: schema + presets)
+- FOUND commit: d1e3a00 (feat: test infrastructure)
+- FOUND commit: d402baf (docs: plan metadata)
+
 ---
 *Phase: 02-school-structure*
 *Completed: 2026-03-30*
