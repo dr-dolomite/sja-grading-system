@@ -26,3 +26,83 @@ model User {
   createdAt          DateTime   @default(now())
   updatedAt          DateTime   @updatedAt
 }
+
+enum GradeLevel {
+  G7
+  G8
+  G9
+  G10
+  G11
+  G12
+}
+
+enum PeriodType {
+  Q1
+  Q2
+  Q3
+  Q4
+}
+
+model SchoolYear {
+  id             String            @id @default(cuid())
+  label          String            @unique
+  isActive       Boolean           @default(false)
+  gradingPeriods GradingPeriod[]
+  gradeLevels    GradeLevelEntry[]
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+}
+
+model GradingPeriod {
+  id           String     @id @default(cuid())
+  schoolYearId String
+  periodType   PeriodType
+  schoolYear   SchoolYear @relation(fields: [schoolYearId], references: [id], onDelete: Cascade)
+
+  @@unique([schoolYearId, periodType])
+}
+
+model GradeLevelEntry {
+  id           String     @id @default(cuid())
+  schoolYearId String
+  gradeLevel   GradeLevel
+  schoolYear   SchoolYear @relation(fields: [schoolYearId], references: [id], onDelete: Cascade)
+  sections     Section[]
+
+  @@unique([schoolYearId, gradeLevel])
+}
+
+model Strand {
+  id        String    @id @default(cuid())
+  name      String    @unique
+  isActive  Boolean   @default(true)
+  sections  Section[]
+  createdAt DateTime  @default(now())
+}
+
+model Section {
+  id                String          @id @default(cuid())
+  name              String
+  gradeLevelEntryId String
+  strandId          String?
+  gradeLevelEntry   GradeLevelEntry @relation(fields: [gradeLevelEntryId], references: [id], onDelete: Cascade)
+  strand            Strand?         @relation(fields: [strandId], references: [id])
+
+  @@unique([gradeLevelEntryId, name])
+}
+
+model Subject {
+  id                     String    @id @default(cuid())
+  name                   String
+  subjectTypeKey         String
+  writtenWorkPct         Int
+  performanceTaskPct     Int
+  quarterlyAssessmentPct Int?
+  hasQuarterlyAssessment Boolean   @default(true)
+  linkedSubjectId        String?
+  linkedSubject          Subject?  @relation("LinkedSubjects", fields: [linkedSubjectId], references: [id])
+  linkedBy               Subject[] @relation("LinkedSubjects")
+  isActive               Boolean   @default(true)
+  createdAt              DateTime  @default(now())
+  updatedAt              DateTime  @updatedAt
+}
