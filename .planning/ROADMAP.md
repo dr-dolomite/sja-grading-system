@@ -29,7 +29,11 @@
   2. A user can log in with their credentials and see a dashboard appropriate to their role
   3. A logged-in user's session persists across browser refresh without needing to log in again
   4. A user can reset their own password
-**Plans**: TBD
+**Plans:** 3 plans
+Plans:
+- [ ] 01-01-PLAN.md — Database & auth infrastructure (Prisma 7, session, DAL, proxy, Server Actions)
+- [ ] 01-02-PLAN.md — Login page and forced password change UI
+- [ ] 01-03-PLAN.md — Dashboard shell with role sections and admin user management
 **UI hint**: yes
 
 ### Phase 2: School Structure
@@ -103,7 +107,7 @@
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation & Auth | 0/0 | Not started | - |
+| 1. Foundation & Auth | 0/3 | Planned | - |
 | 2. School Structure | 0/0 | Not started | - |
 | 3. Enrollment & Assignment | 0/0 | Not started | - |
 | 4. Grading Engine | 0/0 | Not started | - |
