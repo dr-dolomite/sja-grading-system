@@ -61,6 +61,7 @@ Teachers can input raw scores and the system accurately computes DepEd-standard 
 ## Constraints
 
 - **Tech stack**: Next.js 16 + PostgreSQL + Prisma — already decided, existing scaffold in place
+- **UI components**: shadcn/ui (radix-nova style) for all frontend components — already installed, use exclusively
 - **Hosting**: Local network deployment, no cloud dependency. Tailscale planned for future remote access
 - **Compliance**: Must follow DepEd grading component weights and computation rules
 - **Data sensitivity**: Student grades and records are confidential — role-based access control is mandatory
