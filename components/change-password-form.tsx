@@ -9,7 +9,7 @@ import {
   FieldGroup,
   FieldLabel,
 } from "@/components/ui/field"
-import { Input } from "@/components/ui/input"
+import { PasswordInput } from "@/components/password-input"
 import { changePassword } from "@/app/actions/auth"
 import type { ChangePasswordState } from "@/app/actions/auth"
 
@@ -29,10 +29,9 @@ export function ChangePasswordForm() {
         )}
         <Field>
           <FieldLabel htmlFor="newPassword">New password</FieldLabel>
-          <Input
+          <PasswordInput
             id="newPassword"
             name="newPassword"
-            type="password"
             required
             autoComplete="new-password"
             className="bg-background"
@@ -46,10 +45,9 @@ export function ChangePasswordForm() {
           <FieldLabel htmlFor="confirmPassword">
             Confirm new password
           </FieldLabel>
-          <Input
+          <PasswordInput
             id="confirmPassword"
             name="confirmPassword"
-            type="password"
             required
             autoComplete="new-password"
             className="bg-background"

@@ -31,6 +31,7 @@ export type CreateUserState = {
   }
   success?: boolean
   createdEmployeeId?: string
+  tempPassword?: string
 } | null
 
 export async function createUser(
@@ -83,7 +84,7 @@ export async function createUser(
   })
 
   revalidatePath("/dashboard/users")
-  return { success: true, createdEmployeeId: employeeId }
+  return { success: true, createdEmployeeId: employeeId, tempPassword }
 }
 
 // --- Reset Password (AUTH-03 / D-05) ---
@@ -92,6 +93,7 @@ export type ResetPasswordState = {
   errors?: { form?: string[] }
   success?: boolean
   userName?: string
+  tempPassword?: string
 } | null
 
 export async function resetPassword(
@@ -130,7 +132,7 @@ export async function resetPassword(
   })
 
   revalidatePath("/dashboard/users")
-  return { success: true, userName: user.name }
+  return { success: true, userName: user.name, tempPassword }
 }
 
 // --- Toggle User Active Status ---
@@ -164,6 +166,49 @@ export async function toggleUserActive(
   await prisma.user.update({
     where: { id: userId },
     data: { isActive: newStatus },
+  })
+
+  revalidatePath("/dashboard/users")
+  return { success: true }
+}
+
+// --- Update Employee ID ---
+
+export type UpdateEmployeeIdState = {
+  errors?: { employeeId?: string[]; form?: string[] }
+  success?: boolean
+} | null
+
+export async function updateEmployeeId(
+  _prevState: UpdateEmployeeIdState,
+  formData: FormData,
+): Promise<UpdateEmployeeIdState> {
+  const session = await verifySession()
+  if (!session.roles.includes("ADMIN")) {
+    return { errors: { form: ["Unauthorized."] } }
+  }
+
+  const userId = formData.get("userId") as string
+  const newEmployeeId = (formData.get("employeeId") as string)?.trim()
+
+  if (!userId) {
+    return { errors: { form: ["User ID is required."] } }
+  }
+
+  if (!newEmployeeId || newEmployeeId.length < 1) {
+    return { errors: { employeeId: ["Employee ID is required."] } }
+  }
+
+  const existing = await prisma.user.findUnique({
+    where: { employeeId: newEmployeeId },
+  })
+  if (existing && existing.id !== userId) {
+    return { errors: { employeeId: ["This Employee ID is already in use."] } }
+  }
+
+  await prisma.user.update({
+    where: { id: userId },
+    data: { employeeId: newEmployeeId },
   })
 
   revalidatePath("/dashboard/users")
