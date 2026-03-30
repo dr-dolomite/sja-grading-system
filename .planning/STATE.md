@@ -16,9 +16,9 @@
 ## Current Position
 
 **Current Phase:** 1 — Foundation & Auth
-**Current Plan:** None (not started)
-**Phase Status:** Not started
-**Overall Status:** Not started
+**Current Plan:** 2 of 3
+**Phase Status:** In progress
+**Overall Status:** In progress
 
 ```
 Progress: [          ] 0/6 phases complete
@@ -41,8 +41,8 @@ Progress: [          ] 0/6 phases complete
 
 ## Performance Metrics
 
-- Plans executed: 0
-- Plans succeeded first try: 0
+- Plans executed: 1
+- Plans succeeded first try: 1
 - Plans required repair: 0
 - Phases completed: 0
 
@@ -51,10 +51,18 @@ Progress: [          ] 0/6 phases complete
 ## Accumulated Context
 
 ### Key Decisions
-*(None yet — populated during implementation)*
+
+- 01-01: Custom auth (bcryptjs+jose+Prisma) over Better Auth/Auth.js — Employee ID as sole identifier avoids auth library assumption fighting
+- 01-01: Stateless JWT sessions in HttpOnly cookie with 7-day expiry (jose library, official Next.js 16 recommendation)
+- 01-01: proxy.ts at project root for route protection (Next.js 16 breaking change — middleware.ts silently ignored with Turbopack)
+- 01-01: mustChangePassword flag in both DB and JWT session for enforcement without extra DB call per request
+- 01-01: UserRole enum array on User model for Phase 1 simplicity; join table if complex queries needed later
+- 01-01: bcryptjs (pure JS) over bcrypt (native) for Server Action environment compatibility
+- 01-01: DATABASE_URL in prisma.config.ts only — never in schema.prisma (Prisma 7 breaking change)
 
 ### Active Blockers
-*(None)*
+
+- PostgreSQL credentials: `postgres` user password unknown. Must update `.env` DATABASE_URL with correct password before running `prisma migrate dev` and `prisma db seed`.
 
 ### Todos Carried Forward
 *(None yet)*
@@ -72,8 +80,8 @@ Progress: [          ] 0/6 phases complete
 
 ## Session Continuity
 
-**Last updated:** 2026-03-30 — Roadmap created, ready to begin Phase 1 planning
-**Next action:** Run `/gsd:plan-phase 1` to plan Phase 1: Foundation & Auth
+**Last updated:** 2026-03-30 — Completed 01-01-PLAN.md (auth backend foundation)
+**Next action:** Continue Phase 1 with 01-02-PLAN.md (login UI + change-password UI)
 
 ---
 *State initialized: 2026-03-30*
