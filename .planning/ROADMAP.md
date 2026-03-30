@@ -103,7 +103,7 @@
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation & Auth | 1/3 | In progress | - |
+| 1. Foundation & Auth | 3/4 | In Progress|  |
 | 2. School Structure | 0/0 | Not started | - |
 | 3. Enrollment & Assignment | 0/0 | Not started | - |
 | 4. Grading Engine | 0/0 | Not started | - |

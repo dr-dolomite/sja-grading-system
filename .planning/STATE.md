@@ -1,3 +1,19 @@
+---
+gsd_state_version: 1.0
+milestone: v1.0
+milestone_name: milestone
+current_phase: 1 — Foundation & Auth
+current_plan: 3 of 3
+status: unknown
+last_updated: "2026-03-30T06:00:00.000Z"
+progress:
+  total_phases: 6
+  completed_phases: 0
+  total_plans: 4
+  completed_plans: 3
+  percent: 75
+---
+
 # Project State: SJA Grading System
 
 *This file is the project's memory. Updated at every phase transition and plan completion.*
@@ -16,12 +32,12 @@
 ## Current Position
 
 **Current Phase:** 1 — Foundation & Auth
-**Current Plan:** 2 of 3
+**Current Plan:** 3 of 3
 **Phase Status:** In progress
 **Overall Status:** In progress
 
 ```
-Progress: [          ] 0/6 phases complete
+Progress: [████████░░] 75%
 ```
 
 ---
@@ -41,8 +57,8 @@ Progress: [          ] 0/6 phases complete
 
 ## Performance Metrics
 
-- Plans executed: 1
-- Plans succeeded first try: 1
+- Plans executed: 2
+- Plans succeeded first try: 2
 - Plans required repair: 0
 - Phases completed: 0
 
@@ -59,15 +75,19 @@ Progress: [          ] 0/6 phases complete
 - 01-01: UserRole enum array on User model for Phase 1 simplicity; join table if complex queries needed later
 - 01-01: bcryptjs (pure JS) over bcrypt (native) for Server Action environment compatibility
 - 01-01: DATABASE_URL in prisma.config.ts only — never in schema.prisma (Prisma 7 breaking change)
+- 01-02: RSC page + client form component split — login/change-password pages are RSC; only the form components are "use client"
+- 01-02: Route group (auth) for change-password screen — keeps URL /change-password while grouping captive screens without layout inheritance
 
 ### Active Blockers
 
 - PostgreSQL credentials: `postgres` user password unknown. Must update `.env` DATABASE_URL with correct password before running `prisma migrate dev` and `prisma db seed`.
 
 ### Todos Carried Forward
+
 *(None yet)*
 
 ### Discovered Constraints
+
 - Next.js 16 App Router scaffold already exists with shadcn/ui and Tailwind CSS v4
 - No backend, data layer, or auth exists yet — Phase 1 builds from scratch
 - PostgreSQL + Prisma is the decided data stack
@@ -80,8 +100,8 @@ Progress: [          ] 0/6 phases complete
 
 ## Session Continuity
 
-**Last updated:** 2026-03-30 — Completed 01-01-PLAN.md (auth backend foundation)
-**Next action:** Continue Phase 1 with 01-02-PLAN.md (login UI + change-password UI)
+**Last updated:** 2026-03-30 — Completed 01-02-PLAN.md (login UI + change-password UI)
+**Next action:** Continue Phase 1 with 01-03-PLAN.md (dashboard shell + admin user management)
 
 ---
 *State initialized: 2026-03-30*
