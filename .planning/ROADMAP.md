@@ -9,7 +9,7 @@
 
 ## Phases
 
-- [ ] **Phase 1: Foundation & Auth** - Users can securely log in to role-appropriate dashboards; database and auth layer established
+- [x] **Phase 1: Foundation & Auth** - Users can securely log in to role-appropriate dashboards; database and auth layer established (completed 2026-03-30)
 - [ ] **Phase 2: School Structure** - Admin can configure the full school structure (years, quarters, grade levels, sections, strands, subjects)
 - [ ] **Phase 3: Enrollment & Assignment** - Students are enrolled and teachers/advisers are assigned to sections and subjects
 - [ ] **Phase 4: Grading Engine** - Teachers can define activities, enter raw scores, and the system computes accurate DepEd-compliant grades
@@ -29,7 +29,7 @@
   2. A user can log in with their credentials and see a dashboard appropriate to their role
   3. A logged-in user's session persists across browser refresh without needing to log in again
   4. A user can reset their own password
-**Plans**: TBD
+**Plans**: 01-00 (setup), 01-01 (auth backend — complete), 01-02 (login/change-password UI), 01-03 (dashboard + account mgmt)
 **UI hint**: yes
 
 ### Phase 2: School Structure
@@ -41,7 +41,12 @@
   2. Admin can add grade levels (G7-G12) and create multiple named sections within each level
   3. Admin can assign an SHS strand (STEM, ABM, HUMSS, GAS) to an SHS section
   4. Admin can register a subject with its type and configure the DepEd grading component weights (Written Work, Performance Task, Quarterly Assessment)
-**Plans**: TBD
+**Plans**: 4 plans
+Plans:
+- [ ] 02-01-PLAN.md — Prisma schema, subject type presets, test infrastructure
+- [ ] 02-02-PLAN.md — Server Actions, sidebar nav, page shell, School Year tab
+- [ ] 02-03-PLAN.md — Grade Levels tab with sections, Subjects tab with weight presets
+- [ ] 02-04-PLAN.md — Human verification checkpoint
 **UI hint**: yes
 
 ### Phase 3: Enrollment & Assignment
@@ -103,8 +108,8 @@
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation & Auth | 0/0 | Not started | - |
-| 2. School Structure | 0/0 | Not started | - |
+| 1. Foundation & Auth | 4/4 | Complete   | 2026-03-30 |
+| 2. School Structure | 0/4 | Planned | - |
 | 3. Enrollment & Assignment | 0/0 | Not started | - |
 | 4. Grading Engine | 0/0 | Not started | - |
 | 5. Attendance & Adviser Tools | 0/0 | Not started | - |

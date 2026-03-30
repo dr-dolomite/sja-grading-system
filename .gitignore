@@ -30,6 +30,13 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
+# Environment
+.env
+.env.local
+
+# Prisma generated client
+app/generated/
+
 # env files (can opt-in for committing if needed)
 .env*
 
