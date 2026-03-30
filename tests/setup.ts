@@ -23,9 +23,9 @@ vi.mock("next/cache", () => ({
   revalidatePath: vi.fn(),
 }))
 
-// Mock lib/prisma — used by dal.ts and auth actions
-vi.mock("@/lib/prisma", () => ({
-  prisma: {
+// Mock lib/prisma — used by dal.ts, auth actions, and school structure actions
+vi.mock("@/lib/prisma", () => {
+  const prismaMock = {
     user: {
       findUnique: vi.fn(),
       findMany: vi.fn(),
@@ -33,8 +33,45 @@ vi.mock("@/lib/prisma", () => ({
       update: vi.fn(),
       upsert: vi.fn(),
     },
-  },
-}))
+    schoolYear: {
+      findUnique: vi.fn(),
+      findMany: vi.fn(),
+      create: vi.fn(),
+      update: vi.fn(),
+      updateMany: vi.fn(),
+    },
+    gradingPeriod: {
+      createMany: vi.fn(),
+    },
+    gradeLevelEntry: {
+      findUnique: vi.fn(),
+      findMany: vi.fn(),
+      create: vi.fn(),
+      createMany: vi.fn(),
+    },
+    strand: {
+      findMany: vi.fn(),
+      create: vi.fn(),
+    },
+    section: {
+      findUnique: vi.fn(),
+      findMany: vi.fn(),
+      create: vi.fn(),
+      delete: vi.fn(),
+    },
+    subject: {
+      findUnique: vi.fn(),
+      findMany: vi.fn(),
+      create: vi.fn(),
+      update: vi.fn(),
+    },
+  } as Record<string, unknown>
+  prismaMock.$transaction = vi.fn((fnOrArray: unknown) => {
+    if (typeof fnOrArray === "function") return fnOrArray(prismaMock)
+    return Promise.all(fnOrArray as Promise<unknown>[])
+  })
+  return { prisma: prismaMock }
+})
 
 // Mock server-only — it throws at import time in test env
 vi.mock("server-only", () => ({}))
