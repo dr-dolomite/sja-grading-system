@@ -39,6 +39,7 @@ export default function RootLayout({
         "font-sans",
         manrope.variable,
       )}
+      suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col">
         <TooltipProvider>
