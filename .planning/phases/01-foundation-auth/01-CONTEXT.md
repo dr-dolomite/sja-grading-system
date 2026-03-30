@@ -61,21 +61,46 @@ Users can securely authenticate using Employee ID + password and land on role-ap
 <code_context>
 ## Existing Code Insights
 
-### Reusable Assets
-- `components/ui/button.tsx`: Button component with CVA variants — use for login form, admin panel actions
-- `lib/utils.ts`: `cn()` utility for class merging — use everywhere
-- `public/sja-logos/`: SJA brand logos — use on login page
-- `app/globals.css`: Design tokens (colors, radius, fonts) already defined — use existing theme
+### Foundational Frontend Templates (user-provided, use as base)
+- `app/login/page.tsx` + `components/login-form.tsx`: Login page with split layout (form left, image right). Adapt fields to use Employee ID instead of email.
+- `app/dashboard/page.tsx`: Dashboard page with sidebar integration, metric cards, interactive chart, and data table. Use as the role-appropriate dashboard shell.
+- `components/app-sidebar.tsx`: Main sidebar wrapper with branding and navigation structure — foundational navigation component.
+- `components/nav-main.tsx`: Primary navigation menu with icons and quick-create button.
+- `components/nav-user.tsx`: User profile dropdown in sidebar footer (Account, Notifications, Logout).
+- `components/nav-documents.tsx`: Document/resource section with actions dropdown.
+- `components/nav-secondary.tsx`: Secondary navigation (Settings, Help, Search).
+- `components/site-header.tsx`: Top header bar with sidebar trigger and page title.
+- `components/section-cards.tsx`: Metric summary cards — adapt for role-specific dashboard data.
+- `components/chart-area-interactive.tsx`: Interactive area chart with Recharts — available for dashboard analytics.
+- `components/data-table.tsx`: Complex data table with sorting, filtering, pagination, drag-reorder (TanStack React Table + dnd-kit).
+
+### Reusable UI Components (24 shadcn/ui components installed)
+- Form elements: `input.tsx`, `label.tsx`, `field.tsx` (custom, with vertical/horizontal variants, error states), `select.tsx`, `checkbox.tsx`
+- Navigation: `sidebar.tsx`, `breadcrumb.tsx`, `dropdown-menu.tsx`
+- Display: `card.tsx`, `badge.tsx`, `avatar.tsx`, `separator.tsx`, `skeleton.tsx`, `table.tsx`
+- Interactive: `button.tsx`, `tabs.tsx`, `toggle.tsx`, `toggle-group.tsx`, `sheet.tsx`, `drawer.tsx`
+- Feedback: `tooltip.tsx`, `sonner.tsx` (toast notifications)
+- Data visualization: `chart.tsx` (Recharts integration)
+
+### Utilities & Hooks
+- `lib/utils.ts`: `cn()` utility for class merging
+- `hooks/use-mobile.ts`: Mobile breakpoint detection (768px threshold)
+- `public/sja-logos/`: SJA brand logos
+- `app/globals.css`: Design tokens (colors, radius, fonts) with light/dark mode
 
 ### Established Patterns
-- shadcn/ui radix-nova style for all UI components — add more via `shadcn` CLI as needed (Input, Card, Form, etc.)
-- Tailwind v4 CSS-first configuration — no tailwind.config file, all tokens in CSS custom properties
-- React Server Components by default, `"use client"` opt-in for interactive components
-- Named exports for components, default exports for pages/layouts
+- shadcn/ui radix-nova style with CVA variants and `data-slot` attributes
+- Compound component pattern (Field, Card, Sidebar with context providers)
+- `SidebarProvider` / `useSidebar` for sidebar state management
+- Tailwind v4 CSS-first configuration with container queries (`@container`)
+- `"use client"` directive on interactive components; RSC by default for pages/layouts
+- `app/layout.tsx` already wraps with `TooltipProvider` and Sonner `<Toaster>`
 
 ### Integration Points
-- `app/layout.tsx`: Root layout — will need auth provider/session wrapper
-- `app/page.tsx`: Currently scaffold placeholder — will become login page or redirect to dashboard
+- `app/layout.tsx`: Root layout — already has TooltipProvider/Toaster, will need auth provider/session wrapper added
+- `app/login/page.tsx`: Login page exists — adapt Employee ID field, wire to auth backend
+- `app/dashboard/page.tsx`: Dashboard exists — wire to auth-gated route, adapt content per role
+- `components/nav-user.tsx`: User dropdown exists — wire Logout action to auth signout
 - No `middleware.ts` yet — will need for route protection
 - No `prisma/` directory yet — schema and client setup needed from scratch
 - No `.env` file yet — will need for database connection string
