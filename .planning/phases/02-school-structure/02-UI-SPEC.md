@@ -175,7 +175,7 @@ All components are from the existing scaffold. No new shadcn components need to 
 | `Sheet`, `SheetContent`, `SheetHeader`, `SheetTitle` | `@/components/ui/sheet` | "Copy from previous year" confirmation and options panel |
 | `Select` | `@/components/ui/select` | Source year picker |
 | `Checkbox`, `Label` | `@/components/ui/checkbox`, `@/components/ui/label` | Opt-in checkboxes for what to copy: Grade Levels, Sections, Subjects, Strands |
-| `Button` | `@/components/ui/button` | "Copy and create year" primary action, "Cancel" outline action |
+| `Button` | `@/components/ui/button` | "Copy and create year" primary action, "Discard" outline action |
 
 ---
 
@@ -267,7 +267,7 @@ Religious Education      | School-specific       | 30% | 50% | 20% | [Edit]
 - QA column shows "—" (`text-muted-foreground`) for Work Immersion subjects (no QA component)
 - "2-comp" badge shown on Work Immersion rows: `Badge variant="outline" className="text-xs"` with label "2-component"
 - Subject type column shows the friendly label + curriculum tag in muted text (e.g., "Languages · JHS")
-- Actions column: `Button variant="ghost" size="icon-sm"` with `PencilIcon` for edit
+- Actions column: `Button variant="ghost" size="icon-sm"` with `PencilIcon` for edit; button must include `aria-label="Edit [subject name]"` (e.g., `aria-label="Edit Filipino"`)
 
 ### Add / Edit Subject Sheet
 
@@ -320,14 +320,14 @@ What to copy:
   [x] Strands (requires Sections)
   [x] Subjects
 
-[Copy and create year]   [Cancel]
+[Copy and create year]   [Discard]
 ```
 
 - Sheet title: "Copy from previous year"
 - Checkbox dependencies: unchecking "Grade levels" auto-unchecks Sections and Strands (client-side `useEffect`)
 - Helper text: `text-xs text-muted-foreground` explaining that copied data can be edited after creation
 - Submit button: `Button variant="default"` labeled "Copy and create year"
-- Cancel: `Button variant="outline"` labeled "Cancel" (closes Sheet, no action)
+- Discard: `Button variant="outline"` labeled "Discard" (closes Sheet without saving any changes)
 
 ---
 
@@ -360,7 +360,7 @@ What to copy:
 | Trigger | "Activate" button in year row (shown only for inactive years) |
 | Confirmation | Inline Sheet: "Activating 2025-2026 will deactivate the current active year (2024-2025). Continue?" |
 | CTA | "Activate 2025-2026" (`Button variant="default"`) |
-| Dismiss | "Cancel" (`Button variant="outline"`) |
+| Dismiss | "Keep current year" (`Button variant="outline"`) — closes Sheet without changing active year |
 | Success | Toast: "2025-2026 is now the active school year."; badge updates on both rows |
 
 ### Grade Levels: Expand / Collapse
@@ -390,7 +390,7 @@ What to copy:
 | State | Visual |
 |-------|--------|
 | Trigger | "Remove" ghost button in section sub-row |
-| Confirmation | Inline within the sub-row (no separate sheet): text "Remove 'St. John' from Grade 8?" with "Remove" (`Button size="sm" variant="destructive"`) and "Cancel" (`Button size="sm" variant="ghost"`) inline |
+| Confirmation | Inline within the sub-row (no separate sheet): text "Remove 'St. John' from Grade 8?" with "Remove section" (`Button size="sm" variant="destructive"`) and "Keep section" (`Button size="sm" variant="ghost"`) inline |
 | Success | Toast: "'St. John' removed from Grade 8."; sub-row disappears |
 | Blocked | If section has enrolled students (Phase 3+): toast error: "Cannot remove a section with enrolled students." |
 
@@ -439,7 +439,7 @@ What to copy:
 | School Year tab | "Add school year" | default (primary) |
 | Grade Levels tab (within expanded row) | "Add section" | ghost |
 | Subjects tab | "Add subject" | default (primary) |
-| Edit subject (row action) | pencil icon only | ghost icon-sm |
+| Edit subject (row action) | pencil icon only (`aria-label="Edit [subject name]"`) | ghost icon-sm |
 | Activate year | "Activate [year label]" | default |
 | Copy structure | "Copy and create year" | default |
 | Save sheet form | "Save subject" / "Save section" | default |
@@ -469,7 +469,7 @@ What to copy:
 
 | Action | Trigger | Confirmation Approach | Confirm CTA | Dismiss CTA |
 |--------|---------|----------------------|-------------|-------------|
-| Remove section from grade level | "Remove" button in section sub-row | Inline within sub-row (no Sheet) — shows confirmation text + buttons inline where the row was | "Remove" (`Button size="sm" variant="destructive"`) | "Cancel" (`Button size="sm" variant="ghost"`) |
+| Remove section from grade level | "Remove" button in section sub-row | Inline within sub-row (no Sheet) — shows confirmation text + buttons inline where the row was | "Remove section" — destructive | "Keep section" — ghost |
 
 **Note:** No `AlertDialog` component is installed. Confirmations use inline state within the expanded row, consistent with Phase 1's pattern of avoiding dialog overlays. Do not add `AlertDialog` for Phase 2.
 
@@ -496,10 +496,11 @@ The Grade Levels expandable table is not independently scrollable; it uses the p
 - Expandable grade level rows: the chevron `Button` has `aria-expanded={isExpanded}` and `aria-controls` pointing to the section sub-row container
 - Expanded section sub-rows container has `id` matching the chevron's `aria-controls`
 - Weight sum indicator: uses both color AND icon (not color-only) — checkmark for valid, X for invalid, satisfying WCAG SC 1.4.1
-- Inline remove confirmation: focus moves to the "Remove" button when confirmation appears; "Cancel" returns focus to the row
+- Inline remove confirmation: focus moves to the "Remove section" button when confirmation appears; "Keep section" returns focus to the row
 - Sheet panels: focus traps within the open Sheet; Escape closes the Sheet
 - Active tab: `aria-selected="true"` on `TabsTrigger` (provided by shadcn Tabs component)
 - Badge on Work Immersion rows: screen reader label "2-component subject (no Quarterly Assessment)"
+- Pencil icon-only edit button in Subjects table: `aria-label="Edit [subject name]"` (e.g., `aria-label="Edit Filipino"`) — required on every instance; do not omit
 
 ---
 
