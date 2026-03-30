@@ -1,3 +1,19 @@
+---
+gsd_state_version: 1.0
+milestone: v1.0
+milestone_name: milestone
+current_phase: 1 — Foundation & Auth
+current_plan: None (not started)
+status: unknown
+last_updated: "2026-03-30T05:10:45.354Z"
+progress:
+  total_phases: 6
+  completed_phases: 0
+  total_plans: 0
+  completed_plans: 0
+  percent: 0
+---
+
 # Project State: SJA Grading System
 
 *This file is the project's memory. Updated at every phase transition and plan completion.*
@@ -21,7 +37,7 @@
 **Overall Status:** Not started
 
 ```
-Progress: [          ] 0/6 phases complete
+Progress: [░░░░░░░░░░] 0%
 ```
 
 ---
@@ -51,15 +67,19 @@ Progress: [          ] 0/6 phases complete
 ## Accumulated Context
 
 ### Key Decisions
+
 *(None yet — populated during implementation)*
 
 ### Active Blockers
+
 *(None)*
 
 ### Todos Carried Forward
+
 *(None yet)*
 
 ### Discovered Constraints
+
 - Next.js 16 App Router scaffold already exists with shadcn/ui and Tailwind CSS v4
 - No backend, data layer, or auth exists yet — Phase 1 builds from scratch
 - PostgreSQL + Prisma is the decided data stack
