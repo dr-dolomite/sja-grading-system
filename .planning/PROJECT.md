@@ -15,10 +15,10 @@ Teachers can input raw scores and the system accurately computes DepEd-standard 
 - ✓ Next.js 16 App Router scaffold with shadcn/ui component system — existing
 - ✓ Tailwind CSS v4 with design tokens and dark mode support — existing
 - ✓ SJA brand logos available in public/sja-logos/ — existing
+- ✓ Role-based authentication (Subject Teacher, Adviser, Principal, Registrar, Admin) — Validated in Phase 1: Foundation & Auth
 
 ### Active
 
-- [ ] Role-based authentication (Subject Teacher, Adviser, Principal, Registrar, Admin)
 - [ ] School structure management (grade levels, sections, strands, subjects, school year/quarters/semesters)
 - [ ] Student enrollment and profile management
 - [ ] Subject-teacher assignment management
@@ -55,7 +55,7 @@ Teachers can input raw scores and the system accurately computes DepEd-standard 
 - **Grade input workflow:** Teachers define activities (name + max score) per component, then enter raw scores per student. System auto-computes component percentages and quarterly/semester grades.
 - **Attendance:** Per-subject, tracked at start of class. A student can be absent in one subject but present in another on the same day.
 - **Deliberation:** Adviser manually triggers generation after subject teachers submit grades. System warns if any grades are incomplete.
-- **Existing codebase:** Next.js 16 App Router scaffold with shadcn/ui (radix-nova style), Tailwind CSS v4, TypeScript. No backend, data layer, or auth yet.
+- **Existing codebase:** Next.js 16 App Router scaffold with shadcn/ui (radix-nova style), Tailwind CSS v4, TypeScript. Phase 1 complete: PostgreSQL + Prisma 7, JWT auth, role-based dashboards.
 - **Target stack:** PostgreSQL database with Prisma ORM, locally hosted
 
 ## Constraints
@@ -96,4 +96,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-03-30 after initialization*
+*Last updated: 2026-03-30 after Phase 1 completion*
