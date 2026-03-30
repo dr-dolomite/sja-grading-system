@@ -43,7 +43,7 @@
   4. Admin can register a subject with its type and configure the DepEd grading component weights (Written Work, Performance Task, Quarterly Assessment)
 **Plans**: 4 plans
 Plans:
-- [ ] 02-01-PLAN.md — Prisma schema, subject type presets, test infrastructure
+- [x] 02-01-PLAN.md — Prisma schema, subject type presets, test infrastructure (completed 2026-03-30)
 - [ ] 02-02-PLAN.md — Server Actions, sidebar nav, page shell, School Year tab
 - [ ] 02-03-PLAN.md — Grade Levels tab with sections, Subjects tab with weight presets
 - [ ] 02-04-PLAN.md — Human verification checkpoint
@@ -109,7 +109,7 @@ Plans:
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation & Auth | 4/4 | Complete   | 2026-03-30 |
-| 2. School Structure | 0/4 | Planned | - |
+| 2. School Structure | 1/4 | In progress | - |
 | 3. Enrollment & Assignment | 0/0 | Not started | - |
 | 4. Grading Engine | 0/0 | Not started | - |
 | 5. Attendance & Adviser Tools | 0/0 | Not started | - |

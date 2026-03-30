@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 current_phase: 2
-current_plan: Not started
-status: unknown
-last_updated: "2026-03-30T06:16:23.940Z"
+current_plan: 2
+status: in-progress
+last_updated: "2026-03-30T07:38:00.000Z"
 progress:
   total_phases: 6
   completed_phases: 1
-  total_plans: 4
-  completed_plans: 4
-  percent: 100
+  total_plans: 5
+  completed_plans: 5
+  percent: 20
 ---
 
 # Project State: SJA Grading System
@@ -32,12 +32,12 @@ progress:
 ## Current Position
 
 **Current Phase:** 2
-**Current Plan:** Not started
+**Current Plan:** 2 (completed: 02-01)
 **Phase Status:** In progress
 **Overall Status:** In progress
 
 ```
-Progress: [██████████] 100%
+Progress: [██                ] 20%
 ```
 
 ---
@@ -68,6 +68,9 @@ Progress: [██████████] 100%
 
 ### Key Decisions
 
+- 02-01: SHS_OLD_ACADEMIC_WORK_IMMERSION is 3-component (WW=35, PT=40, QA=25) per D-13; D-16 applies only to new curriculum TechPro Work Immersion
+- 02-01: Subject type keys stored as String in Prisma (not enum) to keep presets decoupled from DB; validated at application layer via SUBJECT_TYPE_KEYS
+- 02-01: Renamed SHS_OLD_WORK_IMMERSION to SHS_OLD_ACADEMIC_WORK_IMMERSION to clarify distinction from 2-component new curriculum variant
 - 01-01: Custom auth (bcryptjs+jose+Prisma) over Better Auth/Auth.js — Employee ID as sole identifier avoids auth library assumption fighting
 - 01-01: Stateless JWT sessions in HttpOnly cookie with 7-day expiry (jose library, official Next.js 16 recommendation)
 - 01-01: proxy.ts at project root for route protection (Next.js 16 breaking change — middleware.ts silently ignored with Turbopack)
@@ -103,8 +106,8 @@ Progress: [██████████] 100%
 
 ## Session Continuity
 
-**Last updated:** 2026-03-30 — Completed 01-03-PLAN.md tasks 1-2 (dashboard shell + admin user management). Awaiting human verification of auth flow (Task 3 checkpoint).
-**Next action:** After human verification passes, Phase 1 is complete. Proceed to Phase 2 (School Structure).
+**Last updated:** 2026-03-30 — Completed 02-01-PLAN.md (Prisma schema + subject type presets + test infrastructure).
+**Next action:** Run 02-02-PLAN.md (School Structure Server Actions).
 
 ---
 *State initialized: 2026-03-30*
