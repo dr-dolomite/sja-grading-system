@@ -30,18 +30,15 @@ No third-party registries declared. Gate not applicable.
 
 ## Spacing Scale
 
-8-point scale. All spacing values must be multiples of 4px.
+8-point scale. All spacing values must be multiples of 4px and drawn from the standard set: 4, 8, 16, 24, 32, 48, 64.
 
 | Token | Value | Use |
 |-------|-------|-----|
 | space-1 | 4px | Icon gap, tight inline spacing |
 | space-2 | 8px | Field internal padding, badge padding |
-| space-3 | 12px | Compact list items |
 | space-4 | 16px | Standard gap between fields, card padding |
-| space-5 | 20px | — |
 | space-6 | 24px | Section padding, card gaps |
 | space-8 | 32px | Page section vertical rhythm |
-| space-10 | 40px | — |
 | space-12 | 48px | Large section breaks |
 | space-16 | 64px | Page-level top/bottom padding |
 
@@ -61,16 +58,14 @@ Font stack defined in `app/layout.tsx`:
 
 | Role | Size | Weight | Line-height | Element |
 |------|------|--------|-------------|---------|
-| Heading large | 24px (text-2xl) | 700 (bold) | 1.2 | Login page h1, page titles |
+| Heading large | 24px (text-2xl) | 600 (semibold) | 1.2 | Login page h1, page titles |
 | Heading medium | 20px (text-xl) | 600 (semibold) | 1.2 | Card titles, section headings |
 | Body | 16px (text-base) | 400 (regular) | 1.5 | General content, field values |
 | Small / Label | 14px (text-sm) | 400 (regular) | 1.4 | Field labels, descriptions, badges, muted text |
 
 ### Font Weights (2 weights)
 - **Regular:** 400 — body text, descriptions, muted labels
-- **Semibold:** 600 — headings, button labels, nav item titles, card titles
-
-**Bold (700) exception:** Login page h1 only (`font-bold`), following the existing template pattern.
+- **Semibold:** 600 — all headings (differentiated by size, not weight), button labels, nav item titles, card titles
 
 ### Tabular numerals
 Use `tabular-nums` class on any numeric stat displayed in dashboard summary cards (matches existing `SectionCards` pattern).
