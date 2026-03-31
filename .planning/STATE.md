@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 current_phase: 2
-current_plan: "3 (completed: 02-01, 02-02)"
+current_plan: "4 (completed: 02-01, 02-02, 02-03)"
 status: in-progress
-last_updated: "2026-03-31T07:52:00.000Z"
+last_updated: "2026-03-31T08:30:00.000Z"
 progress:
   total_phases: 6
   completed_phases: 1
   total_plans: 8
   completed_plans: 7
-  percent: 25
+  percent: 75
 ---
 
 # Project State: SJA Grading System
@@ -32,12 +32,12 @@ progress:
 ## Current Position
 
 **Current Phase:** 2
-**Current Plan:** 3 (completed: 02-01, 02-02)
+**Current Plan:** 4 (completed: 02-01, 02-02, 02-03)
 **Phase Status:** In progress
 **Overall Status:** In progress
 
 ```
-Progress: [███               ] 25%
+Progress: [████████░░] 75%
 ```
 
 ---
@@ -68,6 +68,9 @@ Progress: [███               ] 25%
 
 ### Key Decisions
 
+- 02-03: RemoveSectionRow extracted as sub-component to scope removeSection useActionState per section row (avoids shared mutation state)
+- 02-03: Dual useActionState (create + update) in CreateSubjectSheet to avoid conditional hook call (React rules violation)
+- 02-03: startTransition wraps weight auto-fill setState calls in useEffect to satisfy react-hooks/set-state-in-effect rule
 - 02-02: startTransition wraps setOpen() in useEffect to satisfy react-hooks/set-state-in-effect rule across all Sheet components
 - 02-02: Local string literal types for GradeLevel/PeriodType in server actions (avoids importing from generated Prisma client which requires DB connection)
 - 02-01: SHS_OLD_ACADEMIC_WORK_IMMERSION is 3-component (WW=35, PT=40, QA=25) per D-13; D-16 applies only to new curriculum TechPro Work Immersion
@@ -108,8 +111,8 @@ Progress: [███               ] 25%
 
 ## Session Continuity
 
-**Last updated:** 2026-03-31 — Completed 02-02-PLAN.md (School Structure Server Actions and UI: sidebar, page, tabs, School Year tab).
-**Next action:** Run 02-03-PLAN.md (Grade Levels tab and Subjects tab UI).
+**Last updated:** 2026-03-31 — Completed 02-03-PLAN.md (Grade Levels tab with expandable sections and Subjects tab with weight preset auto-population).
+**Next action:** Run 02-04-PLAN.md (test coverage for Phase 2 UI components).
 
 ---
 *State initialized: 2026-03-30*
