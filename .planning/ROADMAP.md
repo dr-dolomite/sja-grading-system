@@ -44,7 +44,7 @@
 **Plans**: 4 plans
 Plans:
 - [x] 02-01-PLAN.md — Prisma schema, subject type presets, test infrastructure (completed 2026-03-30)
-- [ ] 02-02-PLAN.md — Server Actions, sidebar nav, page shell, School Year tab
+- [x] 02-02-PLAN.md — Server Actions, sidebar nav, page shell, School Year tab
 - [ ] 02-03-PLAN.md — Grade Levels tab with sections, Subjects tab with weight presets
 - [ ] 02-04-PLAN.md — Human verification checkpoint
 **UI hint**: yes
@@ -109,7 +109,7 @@ Plans:
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation & Auth | 4/4 | Complete   | 2026-03-30 |
-| 2. School Structure | 1/4 | In progress | - |
+| 2. School Structure | 2/4 | In Progress|  |
 | 3. Enrollment & Assignment | 0/0 | Not started | - |
 | 4. Grading Engine | 0/0 | Not started | - |
 | 5. Attendance & Adviser Tools | 0/0 | Not started | - |

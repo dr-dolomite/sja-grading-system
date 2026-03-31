@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 current_phase: 2
-current_plan: 2
+current_plan: "3 (completed: 02-01, 02-02)"
 status: in-progress
-last_updated: "2026-03-30T07:38:00.000Z"
+last_updated: "2026-03-31T07:52:00.000Z"
 progress:
   total_phases: 6
   completed_phases: 1
-  total_plans: 5
-  completed_plans: 5
-  percent: 20
+  total_plans: 8
+  completed_plans: 7
+  percent: 25
 ---
 
 # Project State: SJA Grading System
@@ -32,12 +32,12 @@ progress:
 ## Current Position
 
 **Current Phase:** 2
-**Current Plan:** 2 (completed: 02-01)
+**Current Plan:** 3 (completed: 02-01, 02-02)
 **Phase Status:** In progress
 **Overall Status:** In progress
 
 ```
-Progress: [██                ] 20%
+Progress: [███               ] 25%
 ```
 
 ---
@@ -68,6 +68,8 @@ Progress: [██                ] 20%
 
 ### Key Decisions
 
+- 02-02: startTransition wraps setOpen() in useEffect to satisfy react-hooks/set-state-in-effect rule across all Sheet components
+- 02-02: Local string literal types for GradeLevel/PeriodType in server actions (avoids importing from generated Prisma client which requires DB connection)
 - 02-01: SHS_OLD_ACADEMIC_WORK_IMMERSION is 3-component (WW=35, PT=40, QA=25) per D-13; D-16 applies only to new curriculum TechPro Work Immersion
 - 02-01: Subject type keys stored as String in Prisma (not enum) to keep presets decoupled from DB; validated at application layer via SUBJECT_TYPE_KEYS
 - 02-01: Renamed SHS_OLD_WORK_IMMERSION to SHS_OLD_ACADEMIC_WORK_IMMERSION to clarify distinction from 2-component new curriculum variant
@@ -106,8 +108,8 @@ Progress: [██                ] 20%
 
 ## Session Continuity
 
-**Last updated:** 2026-03-30 — Completed 02-01-PLAN.md (Prisma schema + subject type presets + test infrastructure).
-**Next action:** Run 02-02-PLAN.md (School Structure Server Actions).
+**Last updated:** 2026-03-31 — Completed 02-02-PLAN.md (School Structure Server Actions and UI: sidebar, page, tabs, School Year tab).
+**Next action:** Run 02-03-PLAN.md (Grade Levels tab and Subjects tab UI).
 
 ---
 *State initialized: 2026-03-30*

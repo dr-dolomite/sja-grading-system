@@ -16,9 +16,9 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### School Structure
 
-- [ ] **STRUCT-01**: Admin can define school years with quarters (Q1-Q4) for JHS and semesters (Sem 1-2) for SHS
-- [ ] **STRUCT-02**: Admin can manage grade levels (G7-G12) with multiple sections per level
-- [ ] **STRUCT-03**: Admin can assign SHS strands (STEM, ABM, HUMSS, GAS) to sections
+- [x] **STRUCT-01**: Admin can define school years with quarters (Q1-Q4) for JHS and semesters (Sem 1-2) for SHS
+- [x] **STRUCT-02**: Admin can manage grade levels (G7-G12) with multiple sections per level
+- [x] **STRUCT-03**: Admin can assign SHS strands (STEM, ABM, HUMSS, GAS) to sections
 - [ ] **STRUCT-04**: Admin can register subjects with type and DepEd grading component weights
 
 ### Enrollment & Assignment
@@ -104,9 +104,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | AUTH-02 | Phase 1 | Complete |
 | AUTH-03 | Phase 1 | Complete (01-01) |
 | AUTH-04 | Phase 1 | Complete (01-01) |
-| STRUCT-01 | Phase 2 | Pending |
-| STRUCT-02 | Phase 2 | Pending |
-| STRUCT-03 | Phase 2 | Pending |
+| STRUCT-01 | Phase 2 | Complete |
+| STRUCT-02 | Phase 2 | Complete |
+| STRUCT-03 | Phase 2 | Complete |
 | STRUCT-04 | Phase 2 | Pending |
 | ENRL-01 | Phase 3 | Pending |
 | ENRL-02 | Phase 3 | Pending |
