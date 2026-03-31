@@ -4,12 +4,13 @@ import { useState } from "react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { SchoolYearTab } from "@/components/school-year-tab"
 import { CreateSchoolYearSheet } from "@/components/create-school-year-sheet"
+import { GradeLevelsTab } from "@/components/grade-levels-tab"
 import type { getSchoolStructureData } from "@/app/actions/school-structure"
 
 type SchoolStructureData = Awaited<ReturnType<typeof getSchoolStructureData>>
 
 export function SchoolStructureTabs(props: SchoolStructureData) {
-  const { schoolYears } = props
+  const { schoolYears, gradeLevelEntries, strands } = props
   const [activeTab, setActiveTab] = useState("school-year")
 
   return (
@@ -52,9 +53,10 @@ export function SchoolStructureTabs(props: SchoolStructureData) {
           <SchoolYearTab schoolYears={schoolYears} />
         </TabsContent>
         <TabsContent value="grade-levels" className="mt-4">
-          <div className="text-sm text-muted-foreground">
-            Grade Levels tab content
-          </div>
+          <GradeLevelsTab
+            gradeLevelEntries={gradeLevelEntries}
+            strands={strands}
+          />
         </TabsContent>
         <TabsContent value="subjects" className="mt-4">
           <div className="text-sm text-muted-foreground">
