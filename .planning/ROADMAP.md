@@ -45,8 +45,8 @@
 Plans:
 - [x] 02-01-PLAN.md — Prisma schema, subject type presets, test infrastructure (completed 2026-03-30)
 - [x] 02-02-PLAN.md — Server Actions, sidebar nav, page shell, School Year tab
-- [ ] 02-03-PLAN.md — Grade Levels tab with sections, Subjects tab with weight presets
-- [ ] 02-04-PLAN.md — Human verification checkpoint
+- [x] 02-03-PLAN.md — Grade Levels tab with sections, Subjects tab with weight presets
+- [x] 02-04-PLAN.md — Human verification checkpoint
 **UI hint**: yes
 
 ### Phase 3: Enrollment & Assignment
