@@ -2,15 +2,19 @@
 
 import { useState } from "react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Button } from "@/components/ui/button"
 import { SchoolYearTab } from "@/components/school-year-tab"
 import { CreateSchoolYearSheet } from "@/components/create-school-year-sheet"
 import { GradeLevelsTab } from "@/components/grade-levels-tab"
+import { SubjectsTab } from "@/components/subjects-tab"
+import { CreateSubjectSheet } from "@/components/create-subject-sheet"
+import { PlusIcon } from "lucide-react"
 import type { getSchoolStructureData } from "@/app/actions/school-structure"
 
 type SchoolStructureData = Awaited<ReturnType<typeof getSchoolStructureData>>
 
 export function SchoolStructureTabs(props: SchoolStructureData) {
-  const { schoolYears, gradeLevelEntries, strands } = props
+  const { schoolYears, gradeLevelEntries, strands, subjects } = props
   const [activeTab, setActiveTab] = useState("school-year")
 
   return (
@@ -23,6 +27,17 @@ export function SchoolStructureTabs(props: SchoolStructureData) {
           </p>
         </div>
         {activeTab === "school-year" && <CreateSchoolYearSheet />}
+        {activeTab === "subjects" && (
+          <CreateSubjectSheet
+            mode="create"
+            trigger={
+              <Button>
+                <PlusIcon className="size-4 mr-2" />
+                Add subject
+              </Button>
+            }
+          />
+        )}
       </div>
       <Tabs
         value={activeTab}
@@ -59,9 +74,7 @@ export function SchoolStructureTabs(props: SchoolStructureData) {
           />
         </TabsContent>
         <TabsContent value="subjects" className="mt-4">
-          <div className="text-sm text-muted-foreground">
-            Subjects tab content
-          </div>
+          <SubjectsTab subjects={subjects} />
         </TabsContent>
       </Tabs>
     </>
