@@ -88,7 +88,7 @@ model Section {
   gradeLevelEntry   GradeLevelEntry @relation(fields: [gradeLevelEntryId], references: [id], onDelete: Cascade)
   strand            Strand?         @relation(fields: [strandId], references: [id])
 
-  @@unique([gradeLevelEntryId, name])
+  @@unique([gradeLevelEntryId, name, strandId])
 }
 
 model Subject {

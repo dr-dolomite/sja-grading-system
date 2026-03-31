@@ -177,14 +177,19 @@ export async function createSection(
   const { name, gradeLevelEntryId, strandId } = validated.data
 
   const existing = await prisma.section.findUnique({
-    where: { gradeLevelEntryId_name: { gradeLevelEntryId, name } },
+    where: {
+      gradeLevelEntryId_name_strandId: {
+        gradeLevelEntryId,
+        name,
+        strandId: strandId || null,
+      },
+    },
   })
   if (existing) {
-    return {
-      errors: {
-        name: ["A section with this name already exists in this grade level."],
-      },
-    }
+    const msg = strandId
+      ? "A section with this name already exists for this strand."
+      : "A section with this name already exists in this grade level."
+    return { errors: { name: [msg] } }
   }
 
   await prisma.section.create({
@@ -410,6 +415,65 @@ export async function updateSubject(
       hasQuarterlyAssessment,
     },
   })
+
+  revalidatePath("/dashboard/school-structure")
+  return { success: true }
+}
+
+// --- Remove School Year ---
+
+export type RemoveSchoolYearState = {
+  errors?: { form?: string[] }
+  success?: boolean
+} | null
+
+export async function removeSchoolYear(
+  _prevState: RemoveSchoolYearState,
+  formData: FormData,
+): Promise<RemoveSchoolYearState> {
+  const session = await verifySession()
+  if (!session.roles.includes("ADMIN")) {
+    return { errors: { form: ["Unauthorized."] } }
+  }
+
+  const schoolYearId = formData.get("schoolYearId") as string
+  if (!schoolYearId) {
+    return { errors: { form: ["School year ID is required."] } }
+  }
+
+  const year = await prisma.schoolYear.findUnique({ where: { id: schoolYearId } })
+  if (year?.isActive) {
+    return { errors: { form: ["Cannot delete the active school year. Deactivate it first."] } }
+  }
+
+  await prisma.schoolYear.delete({ where: { id: schoolYearId } })
+
+  revalidatePath("/dashboard/school-structure")
+  return { success: true }
+}
+
+// --- Remove Subject ---
+
+export type RemoveSubjectState = {
+  errors?: { form?: string[] }
+  success?: boolean
+} | null
+
+export async function removeSubject(
+  _prevState: RemoveSubjectState,
+  formData: FormData,
+): Promise<RemoveSubjectState> {
+  const session = await verifySession()
+  if (!session.roles.includes("ADMIN")) {
+    return { errors: { form: ["Unauthorized."] } }
+  }
+
+  const subjectId = formData.get("subjectId") as string
+  if (!subjectId) {
+    return { errors: { form: ["Subject ID is required."] } }
+  }
+
+  await prisma.subject.delete({ where: { id: subjectId } })
 
   revalidatePath("/dashboard/school-structure")
   return { success: true }
