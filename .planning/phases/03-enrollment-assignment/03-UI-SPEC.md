@@ -5,6 +5,7 @@ status: draft
 shadcn_initialized: true
 preset: "radix-nova / mist"
 created: 2026-04-01
+revised: 2026-04-01
 ---
 
 # Phase 3 — UI Design Contract
@@ -44,9 +45,9 @@ Declared values (multiples of 4 only):
 | 2xl | 48px | Major section breaks (tab content top padding) |
 | 3xl | 64px | Page-level top/bottom padding |
 
-Exceptions:
-- Touch targets for icon-only action buttons (Edit, Remove in table rows): minimum 44px height. Use `h-11` (44px) for icon buttons to meet accessibility minimums.
-- CSV import drop zone: minimum 96px height to be a visible drop target.
+Exceptions (CSS height constraints — not spacing scale values):
+- Icon-only action buttons (Edit, Remove in table rows): `h-11` (44px CSS height) — meets WCAG 2.5.5 touch target minimum.
+- CSV import drop zone: `min-h-24` (96px CSS height) — provides a visible, tappable drop target.
 
 ---
 
@@ -56,16 +57,18 @@ All type uses Manrope (--font-sans). The project uses no second typeface for UI 
 
 | Role | Size | Weight | Line Height | Usage |
 |------|------|--------|-------------|-------|
-| Body | 14px (text-sm) | 400 (regular) | 1.5 | Table cell text, form help text, Sheet body copy |
+| Body | 14px (text-sm) | 400 (regular) | 1.5 | Table cell text, form help text, Sheet body copy, badge/chip text |
 | Label | 14px (text-sm) | 600 (semibold) | 1.4 | Form field labels, column headers, filter labels |
-| Heading | 20px (text-xl) | 600 (semibold) | 1.2 | Page title, Sheet panel title, tab section titles |
+| Heading | 20px (text-xl) | 600 (semibold) | 1.2 | Page title, Sheet panel title, tab section titles, empty state headings |
 | Display | 28px (text-2xl) | 600 (semibold) | 1.2 | Reserved — not used in this phase |
 
 Rules:
-- Table column headers: 14px / 600 / uppercase tracking-wide (text-sm font-semibold uppercase tracking-wide).
+- Table column headers: 14px / 600 / uppercase tracking-wide (`text-sm font-semibold uppercase tracking-wide`).
 - Sheet titles: 20px / 600 using the shadcn Sheet header pattern.
-- Empty state heading: 16px / 600 (text-base font-semibold).
-- Badge / status chip text: 12px (text-xs) / 500 (medium).
+- Empty state headings: 20px / 600 (same as Heading role — no separate 16px size).
+- Badge / status chip text: 12px (`text-xs`) / 600 (semibold) — uses the Label weight, not an intermediate 500.
+- Maximum 4 distinct font sizes in this phase: 12px, 14px, 20px, 28px.
+- Maximum 2 distinct font weights in this phase: 400 (regular), 600 (semibold).
 
 ---
 
@@ -118,6 +121,8 @@ Single page at `/dashboard/enrollment` with two tabs (shadcn Tabs component, con
 | 2 | Assignments | Teacher-to-subject-section and adviser-to-section assignment tables |
 
 Default active tab: Students.
+
+Focal point: The student table is the primary focal element on page load. The "Enroll Student" primary CTA button (top-right of filter bar) is the primary action anchor — it carries the accent color and draws the eye as the single green element in the filter row.
 
 ---
 
@@ -172,16 +177,17 @@ Fields (in order): LRN (required), Last Name (required), First Name (required), 
 Auto-enrollment note (display in Sheet below section field, 12px muted text): "Student will be automatically enrolled in all subjects for the selected section."
 
 Submit button label: "Enroll Student" (primary)
-Cancel button label: "Cancel" (outline)
+Secondary button label: "Discard" (outline) — closes the Sheet without saving
 
 **Edit Student Sheet:**
-Same fields as Create. Submit button label: "Save Changes".
+Same fields as Create. Submit button label: "Update Student" (primary). Secondary button label: "Discard" (outline) — closes the Sheet without saving.
 
 **CSV Import Sheet:**
 Step 1 — Drop zone: "Drop your CSV file here or click to browse". Accepted format note: "Download template" link (downloads a CSV template with required columns).
 Step 2 — Preview table: shows parsed rows with validation status per row (valid = green check badge, invalid = destructive badge with error reason). Column mapping is fixed to the provided template (no custom mapping UI in v1).
 Step 3 — Import confirmation: "Import N students" primary button. Rows with errors are skipped with a count shown.
 Error summary: "X rows will be skipped — [download error report]" link.
+Secondary button in CSV Import Sheet: "Close" (outline) — dismisses the Sheet at any step.
 
 ### Assignments Tab
 
@@ -195,15 +201,15 @@ Table columns:
 2. Grade Level
 3. Section
 4. Assigned Teacher (shows full name, or "Unassigned" badge)
-5. Actions — "Assign" / "Change" Button (outline, small)
+5. Actions — "Assign Teacher" Button (outline, small) when no teacher is assigned; "Change Teacher" Button (outline, small) when a teacher is already assigned
 
-Clicking "Assign" or "Change" opens Assign Teacher Sheet.
+Clicking "Assign Teacher" or "Change Teacher" opens Assign Teacher Sheet.
 
 **Assign Teacher Sheet:**
 Title: "Assign Teacher"
 Fields: Subject (read-only display), Grade Level + Section (read-only display), Teacher (required, Select — lists all users with SUBJECT_TEACHER role, shows name + Employee ID)
 Submit button label: "Assign Teacher" (primary)
-Cancel: "Cancel" (outline)
+Secondary button label: "Discard" (outline) — closes the Sheet without saving
 
 **Adviser Assignments section:**
 
@@ -215,7 +221,7 @@ Table columns:
 2. Section
 3. Strand (shows "—" for JHS)
 4. Current Adviser (shows full name, or "Unassigned" badge)
-5. Actions — "Assign" / "Change" Button (outline, small)
+5. Actions — "Assign Adviser" Button (outline, small) when no adviser is assigned; "Change Adviser" Button (outline, small) when an adviser is already assigned
 
 Clicking opens Assign Adviser Sheet.
 
@@ -223,7 +229,7 @@ Clicking opens Assign Adviser Sheet.
 Title: "Assign Adviser"
 Fields: Section (read-only display), Adviser (required, Select — lists all users with ADVISER role, shows name + Employee ID)
 Submit button label: "Assign Adviser" (primary)
-Cancel: "Cancel" (outline)
+Secondary button label: "Discard" (outline) — closes the Sheet without saving
 
 ---
 
@@ -244,6 +250,10 @@ Cancel: "Cancel" (outline)
 | Global search no results | No students match your search. Check the spelling or try the LRN. |
 | Error state (load failure) | Could not load students. Check your connection and try again. |
 | Section auto-enroll note (in Sheet) | This student will be automatically enrolled in all subjects for the selected section. |
+| Create Sheet secondary action | Discard |
+| Edit Sheet submit | Update Student |
+| Edit Sheet secondary action | Discard |
+| CSV Sheet secondary action | Close |
 | CSV drop zone label | Drop your CSV file here, or click to browse |
 | CSV template link | Download template |
 | CSV import preview button | Import {N} Students |
@@ -251,7 +261,7 @@ Cancel: "Cancel" (outline)
 | CSV import success toast | {N} students enrolled successfully |
 | CSV import partial success toast | {N} students enrolled. {M} rows skipped — see error report. |
 | Student created success toast | Student enrolled successfully |
-| Student updated success toast | Changes saved |
+| Student updated success toast | Student updated |
 | Student removed success toast | Student removed |
 
 ### Assignments Tab
@@ -261,8 +271,12 @@ Cancel: "Cancel" (outline)
 | Teacher assignments section heading | Teacher Assignments |
 | Adviser assignments section heading | Adviser Assignments |
 | Unassigned badge label | Unassigned |
-| Assign action (no current teacher) | Assign |
-| Change action (teacher already assigned) | Change |
+| Assign action (no current teacher) | Assign Teacher |
+| Change action (teacher already assigned) | Change Teacher |
+| Assign action (no current adviser) | Assign Adviser |
+| Change action (adviser already assigned) | Change Adviser |
+| Assign Teacher Sheet secondary action | Discard |
+| Assign Adviser Sheet secondary action | Discard |
 | Grade level filter placeholder | Grade Level |
 | Empty state heading — teacher table | No subject assignments found |
 | Empty state body — teacher table | Configure grade levels and subjects in School Structure first, then return here to assign teachers. |
@@ -278,7 +292,7 @@ Cancel: "Cancel" (outline)
 
 | Action | Confirmation Approach | Confirmation Copy |
 |--------|----------------------|-------------------|
-| Remove student | Inline Sheet confirmation (not a separate dialog) — "Remove Student" button in the edit Sheet footer, shown only after initial save | Removing this student will also remove their enrollment records. This cannot be undone. Remove Student / Cancel |
+| Remove student | Inline Sheet confirmation (not a separate dialog) — "Remove Student" destructive button in the Edit Student Sheet footer, shown only after initial save | "Removing this student will also remove their enrollment records. This cannot be undone." Confirm button: "Remove Student" (destructive). Abort button: "Keep Student" (outline). |
 
 No other destructive actions in this phase. Teacher and adviser assignment changes are non-destructive (overwrite, no history loss in v1).
 
