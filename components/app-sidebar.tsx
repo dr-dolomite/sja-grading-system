@@ -21,6 +21,7 @@ import {
   UsersIcon,
   Settings2Icon,
   BuildingIcon,
+  GraduationCapIcon,
 } from "lucide-react"
 
 type AppSidebarProps = React.ComponentProps<typeof Sidebar> & {
@@ -46,6 +47,12 @@ export function AppSidebar({ user, ...props }: AppSidebarProps) {
       url: "/dashboard/school-structure",
       icon: BuildingIcon,
       visible: user.roles.includes("ADMIN"),
+    },
+    {
+      title: "Enrollment & Assignments",
+      url: "/dashboard/enrollment",
+      icon: GraduationCapIcon,
+      visible: user.roles.includes("ADMIN") || user.roles.includes("PRINCIPAL"),
     },
     {
       title: "Users",
