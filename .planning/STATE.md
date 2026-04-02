@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-current_phase: 3
-current_plan: Not started
-status: unknown
-last_updated: "2026-03-31T02:35:30.993Z"
+current_phase: 03
+current_plan: 2
+status: in-progress
+last_updated: "2026-04-02T05:00:00.000Z"
 progress:
   total_phases: 6
   completed_phases: 2
-  total_plans: 8
-  completed_plans: 8
-  percent: 75
+  total_plans: 13
+  completed_plans: 9
+  percent: 69
 ---
 
 # Project State: SJA Grading System
@@ -31,13 +31,15 @@ progress:
 
 ## Current Position
 
-**Current Phase:** 3
-**Current Plan:** Not started
+Phase: 03 (enrollment-assignment) — EXECUTING
+Plan: 2 of 5
+**Current Phase:** 03
+**Current Plan:** 2
 **Phase Status:** In progress
 **Overall Status:** In progress
 
 ```
-Progress: [████████░░] 75%
+Progress: [███████░░░] 69%
 ```
 
 ---
@@ -68,6 +70,9 @@ Progress: [████████░░] 75%
 
 ### Key Decisions
 
+- 03-01: Hidden form + programmatic button.click pattern for checkbox-triggered Server Actions (avoids inline form submit in Checkbox onCheckedChange)
+- 03-01: startTransition wraps setChecked/setPending setState calls in useEffect per established Phase 2 pattern
+- 03-01: SubjectAssignment.strandId = null for JHS; non-null for SHS strands — @@unique([subjectId, gradeLevelEntryId, strandId]) enforces one record per combination
 - 02-03: RemoveSectionRow extracted as sub-component to scope removeSection useActionState per section row (avoids shared mutation state)
 - 02-03: Dual useActionState (create + update) in CreateSubjectSheet to avoid conditional hook call (React rules violation)
 - 02-03: startTransition wraps weight auto-fill setState calls in useEffect to satisfy react-hooks/set-state-in-effect rule
@@ -111,8 +116,8 @@ Progress: [████████░░] 75%
 
 ## Session Continuity
 
-**Last updated:** 2026-03-31 — Completed 02-03-PLAN.md (Grade Levels tab with expandable sections and Subjects tab with weight preset auto-population).
-**Next action:** Run 02-04-PLAN.md (test coverage for Phase 2 UI components).
+**Last updated:** 2026-04-02 — Completed 03-01-PLAN.md (Phase 3 Prisma schema extension with Student/SubjectAssignment/StudentEnrollment/TeacherAssignment models and Assign to grade levels UI on Subjects tab).
+**Next action:** Run 03-02-PLAN.md (next Phase 3 plan).
 
 ---
 *State initialized: 2026-03-30*

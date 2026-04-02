@@ -24,7 +24,7 @@ Requirements for initial release. Each maps to roadmap phases.
 ### Enrollment & Assignment
 
 - [ ] **ENRL-01**: Admin/Principal can create and edit student profiles (name, grade level, section, strand, contact info)
-- [ ] **ENRL-02**: Admin/Principal can enroll students into specific subjects per quarter/semester
+- [x] **ENRL-02**: Admin/Principal can enroll students into specific subjects per quarter/semester
 - [ ] **ENRL-03**: Principal can assign teachers to subjects and sections
 - [ ] **ENRL-04**: Principal can assign advisers to sections
 
@@ -109,7 +109,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | STRUCT-03 | Phase 2 | Complete |
 | STRUCT-04 | Phase 2 | Complete |
 | ENRL-01 | Phase 3 | Pending |
-| ENRL-02 | Phase 3 | Pending |
+| ENRL-02 | Phase 3 | Complete |
 | ENRL-03 | Phase 3 | Pending |
 | ENRL-04 | Phase 3 | Pending |
 | GRAD-01 | Phase 4 | Pending |
