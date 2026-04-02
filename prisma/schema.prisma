@@ -16,15 +16,17 @@ enum UserRole {
 }
 
 model User {
-  id                 String     @id @default(cuid())
-  employeeId         String     @unique
+  id                 String               @id @default(cuid())
+  employeeId         String               @unique
   name               String
   passwordHash       String
   roles              UserRole[]
-  mustChangePassword Boolean    @default(true)
-  isActive           Boolean    @default(true)
-  createdAt          DateTime   @default(now())
-  updatedAt          DateTime   @updatedAt
+  mustChangePassword Boolean              @default(true)
+  isActive           Boolean              @default(true)
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @updatedAt
+  teacherAssignments TeacherAssignment[]  @relation("TeacherAssignments")
+  advisedSections    Section[]            @relation("AdviserAssignments")
 }
 
 enum GradeLevel {
@@ -63,46 +65,114 @@ model GradingPeriod {
 }
 
 model GradeLevelEntry {
-  id           String     @id @default(cuid())
-  schoolYearId String
-  gradeLevel   GradeLevel
-  schoolYear   SchoolYear @relation(fields: [schoolYearId], references: [id], onDelete: Cascade)
-  sections     Section[]
+  id                 String               @id @default(cuid())
+  schoolYearId       String
+  gradeLevel         GradeLevel
+  schoolYear         SchoolYear           @relation(fields: [schoolYearId], references: [id], onDelete: Cascade)
+  sections           Section[]
+  subjectAssignments SubjectAssignment[]
 
   @@unique([schoolYearId, gradeLevel])
 }
 
 model Strand {
-  id        String    @id @default(cuid())
-  name      String    @unique
-  isActive  Boolean   @default(true)
-  sections  Section[]
-  createdAt DateTime  @default(now())
+  id                 String               @id @default(cuid())
+  name               String               @unique
+  isActive           Boolean              @default(true)
+  sections           Section[]
+  subjectAssignments SubjectAssignment[]
+  createdAt          DateTime             @default(now())
 }
 
 model Section {
-  id                String          @id @default(cuid())
-  name              String
-  gradeLevelEntryId String
-  strandId          String?
-  gradeLevelEntry   GradeLevelEntry @relation(fields: [gradeLevelEntryId], references: [id], onDelete: Cascade)
-  strand            Strand?         @relation(fields: [strandId], references: [id])
+  id                 String              @id @default(cuid())
+  name               String
+  gradeLevelEntryId  String
+  strandId           String?
+  adviserId          String?
+  gradeLevelEntry    GradeLevelEntry     @relation(fields: [gradeLevelEntryId], references: [id], onDelete: Cascade)
+  strand             Strand?             @relation(fields: [strandId], references: [id])
+  adviser            User?               @relation("AdviserAssignments", fields: [adviserId], references: [id])
+  students           Student[]
+  teacherAssignments TeacherAssignment[] @relation("TeacherAssignments")
 
   @@unique([gradeLevelEntryId, name, strandId])
 }
 
 model Subject {
-  id                     String    @id @default(cuid())
+  id                     String               @id @default(cuid())
   name                   String
   subjectTypeKey         String
   writtenWorkPct         Int
   performanceTaskPct     Int
   quarterlyAssessmentPct Int?
-  hasQuarterlyAssessment Boolean   @default(true)
+  hasQuarterlyAssessment Boolean              @default(true)
   linkedSubjectId        String?
-  linkedSubject          Subject?  @relation("LinkedSubjects", fields: [linkedSubjectId], references: [id])
-  linkedBy               Subject[] @relation("LinkedSubjects")
-  isActive               Boolean   @default(true)
-  createdAt              DateTime  @default(now())
-  updatedAt              DateTime  @updatedAt
+  linkedSubject          Subject?             @relation("LinkedSubjects", fields: [linkedSubjectId], references: [id])
+  linkedBy               Subject[]            @relation("LinkedSubjects")
+  isActive               Boolean              @default(true)
+  subjectAssignments     SubjectAssignment[]
+  createdAt              DateTime             @default(now())
+  updatedAt              DateTime             @updatedAt
+}
+
+// --- Phase 3: Enrollment & Assignment ---
+
+enum Sex {
+  MALE
+  FEMALE
+}
+
+model Student {
+  id            String              @id @default(cuid())
+  lrn           String              @unique
+  lastName      String
+  firstName     String
+  middleName    String?
+  sex           Sex
+  contactNumber String?
+  sectionId     String
+  section       Section             @relation(fields: [sectionId], references: [id])
+  enrollments   StudentEnrollment[]
+  createdAt     DateTime            @default(now())
+  updatedAt     DateTime            @updatedAt
+}
+
+model SubjectAssignment {
+  id                 String              @id @default(cuid())
+  subjectId          String
+  gradeLevelEntryId  String
+  strandId           String?
+  subject            Subject             @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  gradeLevelEntry    GradeLevelEntry     @relation(fields: [gradeLevelEntryId], references: [id], onDelete: Cascade)
+  strand             Strand?             @relation(fields: [strandId], references: [id])
+  enrollments        StudentEnrollment[]
+  teacherAssignments TeacherAssignment[]
+
+  @@unique([subjectId, gradeLevelEntryId, strandId])
+}
+
+model StudentEnrollment {
+  id                  String            @id @default(cuid())
+  studentId           String
+  subjectAssignmentId String
+  student             Student           @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  subjectAssignment   SubjectAssignment @relation(fields: [subjectAssignmentId], references: [id], onDelete: Cascade)
+  createdAt           DateTime          @default(now())
+
+  @@unique([studentId, subjectAssignmentId])
+}
+
+model TeacherAssignment {
+  id                  String            @id @default(cuid())
+  subjectAssignmentId String
+  sectionId           String
+  teacherId           String
+  subjectAssignment   SubjectAssignment @relation(fields: [subjectAssignmentId], references: [id], onDelete: Cascade)
+  section             Section           @relation("TeacherAssignments", fields: [sectionId], references: [id], onDelete: Cascade)
+  teacher             User              @relation("TeacherAssignments", fields: [teacherId], references: [id])
+  createdAt           DateTime          @default(now())
+  updatedAt           DateTime          @updatedAt
+
+  @@unique([subjectAssignmentId, sectionId])
 }
