@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 current_phase: 03
-current_plan: 4
+current_plan: 5
 status: in-progress
-last_updated: "2026-04-02T06:00:00Z"
+last_updated: "2026-04-02T01:15:24Z"
 progress:
   total_phases: 6
   completed_phases: 2
   total_plans: 13
-  completed_plans: 11
-  percent: 85
+  completed_plans: 12
+  percent: 92
 ---
 
 # Project State: SJA Grading System
@@ -32,14 +32,14 @@ progress:
 ## Current Position
 
 Phase: 03 (enrollment-assignment) — EXECUTING
-Plan: 4 of 5
+Plan: 5 of 5
 **Current Phase:** 03
-**Current Plan:** 4
+**Current Plan:** 5
 **Phase Status:** In progress
 **Overall Status:** In progress
 
 ```
-Progress: [█████████░] 85%
+Progress: [█████████░] 92%
 ```
 
 ---
@@ -70,6 +70,9 @@ Progress: [█████████░] 85%
 
 ### Key Decisions
 
+- 03-04: JSON.stringify(validRows) in hidden FormData field for bulkCreateStudents — avoids multipart upload complexity through Server Actions; client validates, server re-validates with Zod
+- 03-04: Per-row try/catch inside prisma.$transaction for bulkCreateStudents — one bad row skips without aborting the entire import; skipped count returned to client
+- 03-04: Strand matching by name in bulkCreateStudents — CSV uses human-readable strand names matched against section.strand.name (not IDs)
 - 03-03: EnrollmentTabs props split into enrollmentData/assignmentData — both getEnrollmentData and getAssignmentData return a sections field with different shapes, causing type collision; named props avoid intersection type merge
 - 03-03: Promise.all in EnrollmentPage for parallel fetch of getEnrollmentData and getAssignmentData — independent queries, no waterfall latency
 - 03-03: assignTeacher uses Prisma upsert on TeacherAssignment — @@unique([subjectAssignmentId, sectionId]) would throw P2002 on repeat assign; upsert handles create+update cleanly
@@ -123,8 +126,8 @@ Progress: [█████████░] 85%
 
 ## Session Continuity
 
-**Last updated:** 2026-04-02 — Completed 03-03-PLAN.md (Assignments tab: TeacherAssignmentTable with grade level filter, AssignTeacherSheet, AdviserAssignmentTable, AssignAdviserSheet. assignTeacher/assignAdviser Server Actions with PRINCIPAL-only role check).
-**Next action:** Run 03-04-PLAN.md (next Phase 3 plan).
+**Last updated:** 2026-04-02 — Completed 03-04-PLAN.md (CSV bulk import: CsvImportSheet multi-step component, bulkCreateStudents Server Action with per-row skip logic, downloadable CSV template, wired to Import CSV button in EnrollmentTabs).
+**Next action:** Run 03-05-PLAN.md (final Phase 3 plan).
 
 ---
 *State initialized: 2026-03-30*

@@ -63,7 +63,7 @@ Plans:
 - [x] 03-01-PLAN.md — Prisma schema extension + SubjectAssignment linking UI
 - [x] 03-02-PLAN.md — Student CRUD, auto-enrollment, enrollment page with Students tab
 - [x] 03-03-PLAN.md — Teacher and adviser assignment tables and Sheet forms
-- [ ] 03-04-PLAN.md — CSV bulk import for students
+- [x] 03-04-PLAN.md — CSV bulk import for students
 - [ ] 03-05-PLAN.md — Human verification checkpoint
 **UI hint**: yes
 
@@ -116,7 +116,7 @@ Plans:
 |-------|----------------|--------|-----------|
 | 1. Foundation & Auth | 4/4 | Complete   | 2026-03-30 |
 | 2. School Structure | 4/4 | Complete   | 2026-03-31 |
-| 3. Enrollment & Assignment | 3/5 | In Progress|  |
+| 3. Enrollment & Assignment | 4/5 | In Progress|  |
 | 4. Grading Engine | 0/0 | Not started | - |
 | 5. Attendance & Adviser Tools | 0/0 | Not started | - |
 | 6. Staff Dashboards | 0/0 | Not started | - |
