@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { StudentTable } from "@/components/student-table"
 import { CreateStudentSheet } from "@/components/create-student-sheet"
+import { CsvImportSheet } from "@/components/csv-import-sheet"
 import { TeacherAssignmentTable } from "@/components/teacher-assignment-table"
 import { AdviserAssignmentTable } from "@/components/adviser-assignment-table"
 import { PlusIcon, UploadIcon } from "lucide-react"
@@ -43,10 +44,15 @@ export function EnrollmentTabs({ enrollmentData, assignmentData }: EnrollmentTab
                 </Button>
               }
             />
-            <Button variant="outline">
-              <UploadIcon className="size-4 mr-2" />
-              Import CSV
-            </Button>
+            <CsvImportSheet
+              sections={sections}
+              trigger={
+                <Button variant="outline">
+                  <UploadIcon className="size-4 mr-2" />
+                  Import CSV
+                </Button>
+              }
+            />
           </div>
         )}
       </div>

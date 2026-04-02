@@ -278,6 +278,153 @@ export async function updateStudent(
   return { success: true }
 }
 
+// --- Bulk Create Students (CSV Import) ---
+
+export type BulkCreateStudentsState = {
+  errors?: {
+    form?: string[]
+  }
+  success?: boolean
+  imported?: number
+  skipped?: number
+} | null
+
+const BulkRowSchema = z.object({
+  lrn: z.string().min(1, { error: "LRN required" }),
+  lastName: z.string().min(1, { error: "Last name required" }),
+  firstName: z.string().min(1, { error: "First name required" }),
+  middleName: z.string().optional(),
+  gradeLevel: z.string().min(1, { error: "Grade level required" }),
+  sectionName: z.string().min(1, { error: "Section name required" }),
+  strand: z.string().optional(),
+  sex: z.enum(["MALE", "FEMALE"]),
+  contactNumber: z.string().optional(),
+})
+
+export async function bulkCreateStudents(
+  _prevState: BulkCreateStudentsState,
+  formData: FormData,
+): Promise<BulkCreateStudentsState> {
+  const session = await verifySession()
+  if (!session.roles.includes("ADMIN") && !session.roles.includes("PRINCIPAL")) {
+    return { errors: { form: ["Unauthorized."] } }
+  }
+
+  const rawRows = formData.get("rows")
+  if (!rawRows || typeof rawRows !== "string") {
+    return { errors: { form: ["No rows provided."] } }
+  }
+
+  let parsedRows: unknown[]
+  try {
+    parsedRows = JSON.parse(rawRows) as unknown[]
+  } catch {
+    return { errors: { form: ["Invalid data format."] } }
+  }
+
+  if (!Array.isArray(parsedRows) || parsedRows.length === 0) {
+    return { errors: { form: ["No valid rows to import."] } }
+  }
+
+  // Find active school year
+  const activeYear = await prisma.schoolYear.findFirst({ where: { isActive: true } })
+  if (!activeYear) {
+    return { errors: { form: ["No active school year found."] } }
+  }
+
+  // Load all grade level entries + sections for active year
+  const gradeLevelEntries = await prisma.gradeLevelEntry.findMany({
+    where: { schoolYearId: activeYear.id },
+    include: {
+      sections: {
+        include: { strand: true },
+      },
+    },
+  })
+
+  let imported = 0
+  let skipped = 0
+
+  await prisma.$transaction(async (tx) => {
+    for (const raw of parsedRows) {
+      try {
+        const validated = BulkRowSchema.safeParse(raw)
+        if (!validated.success) {
+          skipped++
+          continue
+        }
+
+        const { lrn, lastName, firstName, middleName, gradeLevel, sectionName, strand, sex, contactNumber } = validated.data
+
+        // Check if LRN already exists
+        const existing = await tx.student.findUnique({ where: { lrn } })
+        if (existing) {
+          skipped++
+          continue
+        }
+
+        // Resolve grade level entry
+        const gle = gradeLevelEntries.find((g) => g.gradeLevel === gradeLevel)
+        if (!gle) {
+          skipped++
+          continue
+        }
+
+        // Resolve section — for SHS, also match strand name if provided
+        const isSHS = gradeLevel === "G11" || gradeLevel === "G12"
+        const section = gle.sections.find((s) => {
+          if (s.name !== sectionName) return false
+          if (isSHS && strand) {
+            return s.strand?.name === strand
+          }
+          return true
+        })
+
+        if (!section) {
+          skipped++
+          continue
+        }
+
+        // Create student
+        const student = await tx.student.create({
+          data: {
+            lrn,
+            lastName,
+            firstName,
+            middleName: middleName || null,
+            sectionId: section.id,
+            sex: sex as Sex,
+            contactNumber: contactNumber || null,
+          },
+        })
+
+        // Auto-enroll in subjects for this section's grade level + strand
+        const subjectAssignments = await tx.subjectAssignment.findMany({
+          where: {
+            gradeLevelEntryId: gle.id,
+            strandId: section.strandId ?? null,
+          },
+        })
+
+        await tx.studentEnrollment.createMany({
+          data: subjectAssignments.map((sa) => ({
+            studentId: student.id,
+            subjectAssignmentId: sa.id,
+          })),
+          skipDuplicates: true,
+        })
+
+        imported++
+      } catch {
+        skipped++
+      }
+    }
+  })
+
+  revalidatePath("/dashboard/enrollment")
+  return { success: true, imported, skipped }
+}
+
 // --- Remove Student ---
 
 export type RemoveStudentState = {
