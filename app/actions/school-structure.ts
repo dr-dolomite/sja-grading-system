@@ -189,7 +189,7 @@ export async function createSection(
       gradeLevelEntryId_name_strandId: {
         gradeLevelEntryId,
         name,
-        strandId: strandId || null,
+        strandId: (strandId || null) as string,
       },
     },
   })
