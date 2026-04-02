@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 current_phase: 03
-current_plan: 2
+current_plan: 3
 status: in-progress
-last_updated: "2026-04-02T05:00:00.000Z"
+last_updated: "2026-04-02T05:40:44Z"
 progress:
   total_phases: 6
   completed_phases: 2
   total_plans: 13
-  completed_plans: 9
-  percent: 69
+  completed_plans: 10
+  percent: 77
 ---
 
 # Project State: SJA Grading System
@@ -32,14 +32,14 @@ progress:
 ## Current Position
 
 Phase: 03 (enrollment-assignment) — EXECUTING
-Plan: 2 of 5
+Plan: 3 of 5
 **Current Phase:** 03
-**Current Plan:** 2
+**Current Plan:** 3
 **Phase Status:** In progress
 **Overall Status:** In progress
 
 ```
-Progress: [███████░░░] 69%
+Progress: [████████░░] 77%
 ```
 
 ---
@@ -70,6 +70,10 @@ Progress: [███████░░░] 69%
 
 ### Key Decisions
 
+- 03-02: strandId ?? null for Prisma SubjectAssignment filter — undefined omits filter entirely, null enforces IS NULL for JHS sections without strands
+- 03-02: RemoveStudentRow extracted as sub-component to scope removeStudent useActionState per row (same pattern as Phase 2 RemoveSectionRow)
+- 03-02: Dual useActionState (create + update) in CreateStudentSheet avoids conditional hook call per React rules
+- 03-02: Prisma client regenerated after Plan 01 schema changes — new models (Student, SubjectAssignment, StudentEnrollment, TeacherAssignment) require prisma generate before use
 - 03-01: Hidden form + programmatic button.click pattern for checkbox-triggered Server Actions (avoids inline form submit in Checkbox onCheckedChange)
 - 03-01: startTransition wraps setChecked/setPending setState calls in useEffect per established Phase 2 pattern
 - 03-01: SubjectAssignment.strandId = null for JHS; non-null for SHS strands — @@unique([subjectId, gradeLevelEntryId, strandId]) enforces one record per combination
@@ -116,8 +120,8 @@ Progress: [███████░░░] 69%
 
 ## Session Continuity
 
-**Last updated:** 2026-04-02 — Completed 03-01-PLAN.md (Phase 3 Prisma schema extension with Student/SubjectAssignment/StudentEnrollment/TeacherAssignment models and Assign to grade levels UI on Subjects tab).
-**Next action:** Run 03-02-PLAN.md (next Phase 3 plan).
+**Last updated:** 2026-04-02 — Completed 03-02-PLAN.md (Student CRUD with auto-enrollment, enrollment page at /dashboard/enrollment, student table with filter/search, create/edit Sheet, sidebar nav for ADMIN|PRINCIPAL).
+**Next action:** Run 03-03-PLAN.md (next Phase 3 plan — Assignments tab: teacher and adviser assignment tables).
 
 ---
 *State initialized: 2026-03-30*
