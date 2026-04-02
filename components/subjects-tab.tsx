@@ -11,9 +11,10 @@ import {
 } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { PencilIcon, Link2Icon, Trash2Icon } from "lucide-react"
+import { PencilIcon, Link2Icon, Trash2Icon, BookmarkIcon } from "lucide-react"
 import { getPreset } from "@/lib/subject-type-presets"
 import { CreateSubjectSheet } from "@/components/create-subject-sheet"
+import { AssignSubjectSheet } from "@/components/assign-subject-sheet"
 import { removeSubject, type RemoveSubjectState } from "@/app/actions/school-structure"
 import { toast } from "sonner"
 
@@ -28,6 +29,21 @@ type SubjectsTabProps = {
     hasQuarterlyAssessment: boolean
     linkedSubjectId: string | null
     isActive: boolean
+  }>
+  gradeLevelEntries: Array<{
+    id: string
+    gradeLevel: string
+    schoolYearId: string
+  }>
+  strands: Array<{
+    id: string
+    name: string
+  }>
+  subjectAssignments: Array<{
+    id: string
+    subjectId: string
+    gradeLevelEntryId: string
+    strandId: string | null
   }>
 }
 
@@ -89,7 +105,7 @@ function RemoveSubjectRow({
   )
 }
 
-export function SubjectsTab({ subjects }: SubjectsTabProps) {
+export function SubjectsTab({ subjects, gradeLevelEntries, strands, subjectAssignments }: SubjectsTabProps) {
   const [confirmingRemove, setConfirmingRemove] = useState<string | null>(null)
 
   if (subjects.length === 0) {
@@ -165,6 +181,24 @@ export function SubjectsTab({ subjects }: SubjectsTabProps) {
               </TableCell>
               <TableCell className="text-right">
                 <div className="flex items-center justify-end gap-1">
+                  <AssignSubjectSheet
+                    subjectId={subject.id}
+                    subjectName={subject.name}
+                    gradeLevelEntries={gradeLevelEntries}
+                    strands={strands}
+                    existingAssignments={subjectAssignments.filter(
+                      (a) => a.subjectId === subject.id,
+                    )}
+                    trigger={
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        aria-label={`Assign ${subject.name} to grade levels`}
+                      >
+                        <BookmarkIcon className="size-4" />
+                      </Button>
+                    }
+                  />
                   <CreateSubjectSheet
                     mode="edit"
                     subject={subject}

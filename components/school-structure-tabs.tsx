@@ -14,7 +14,7 @@ import type { getSchoolStructureData } from "@/app/actions/school-structure"
 type SchoolStructureData = Awaited<ReturnType<typeof getSchoolStructureData>>
 
 export function SchoolStructureTabs(props: SchoolStructureData) {
-  const { schoolYears, gradeLevelEntries, strands, subjects } = props
+  const { schoolYears, gradeLevelEntries, strands, subjects, subjectAssignments } = props
   const [activeTab, setActiveTab] = useState("school-year")
 
   return (
@@ -74,7 +74,12 @@ export function SchoolStructureTabs(props: SchoolStructureData) {
           />
         </TabsContent>
         <TabsContent value="subjects" className="mt-4">
-          <SubjectsTab subjects={subjects} />
+          <SubjectsTab
+            subjects={subjects}
+            gradeLevelEntries={gradeLevelEntries}
+            strands={strands}
+            subjectAssignments={subjectAssignments}
+          />
         </TabsContent>
       </Tabs>
     </>

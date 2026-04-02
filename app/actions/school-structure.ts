@@ -31,7 +31,15 @@ export async function getSchoolStructureData() {
     where: { isActive: true },
     orderBy: { name: "asc" },
   })
-  return { schoolYears, gradeLevelEntries, strands, subjects }
+  const subjectAssignments = await prisma.subjectAssignment.findMany({
+    include: {
+      subject: true,
+      gradeLevelEntry: true,
+      strand: true,
+    },
+    orderBy: { gradeLevelEntry: { gradeLevel: "asc" } },
+  })
+  return { schoolYears, gradeLevelEntries, strands, subjects, subjectAssignments }
 }
 
 // --- Create School Year ---
@@ -474,6 +482,99 @@ export async function removeSubject(
   }
 
   await prisma.subject.delete({ where: { id: subjectId } })
+
+  revalidatePath("/dashboard/school-structure")
+  return { success: true }
+}
+
+// --- Assign Subject to Grade Level ---
+
+export type AssignSubjectState = {
+  errors?: {
+    subjectId?: string[]
+    gradeLevelEntryId?: string[]
+    strandId?: string[]
+    form?: string[]
+  }
+  success?: boolean
+} | null
+
+const AssignSubjectSchema = z.object({
+  subjectId: z.string().min(1, { error: "Subject ID is required." }),
+  gradeLevelEntryId: z.string().min(1, { error: "Grade level is required." }),
+  strandId: z.string().optional(),
+})
+
+export async function assignSubjectToGradeLevel(
+  _prevState: AssignSubjectState,
+  formData: FormData,
+): Promise<AssignSubjectState> {
+  const session = await verifySession()
+  if (!session.roles.includes("ADMIN")) {
+    return { errors: { form: ["Unauthorized."] } }
+  }
+
+  const validated = AssignSubjectSchema.safeParse({
+    subjectId: formData.get("subjectId"),
+    gradeLevelEntryId: formData.get("gradeLevelEntryId"),
+    strandId: formData.get("strandId") || undefined,
+  })
+
+  if (!validated.success) {
+    return { errors: validated.error.flatten().fieldErrors }
+  }
+
+  const { subjectId, gradeLevelEntryId, strandId } = validated.data
+
+  try {
+    await prisma.subjectAssignment.create({
+      data: { subjectId, gradeLevelEntryId, strandId: strandId ?? null },
+    })
+  } catch (e) {
+    const err = e as { code?: string }
+    if (err?.code === "P2002") {
+      return {
+        errors: {
+          form: ["This subject is already assigned to this grade level and strand."],
+        },
+      }
+    }
+    throw e
+  }
+
+  revalidatePath("/dashboard/school-structure")
+  return { success: true }
+}
+
+// --- Remove Subject Assignment ---
+
+export type RemoveSubjectAssignmentState = {
+  errors?: { form?: string[] }
+  success?: boolean
+} | null
+
+const RemoveSubjectAssignmentSchema = z.object({
+  id: z.string().min(1, { error: "Assignment ID is required." }),
+})
+
+export async function removeSubjectAssignment(
+  _prevState: RemoveSubjectAssignmentState,
+  formData: FormData,
+): Promise<RemoveSubjectAssignmentState> {
+  const session = await verifySession()
+  if (!session.roles.includes("ADMIN")) {
+    return { errors: { form: ["Unauthorized."] } }
+  }
+
+  const validated = RemoveSubjectAssignmentSchema.safeParse({
+    id: formData.get("id"),
+  })
+
+  if (!validated.success) {
+    return { errors: { form: ["Invalid assignment ID."] } }
+  }
+
+  await prisma.subjectAssignment.delete({ where: { id: validated.data.id } })
 
   revalidatePath("/dashboard/school-structure")
   return { success: true }
