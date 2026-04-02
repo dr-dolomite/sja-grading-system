@@ -3,15 +3,26 @@
 import { useState } from "react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Button } from "@/components/ui/button"
+import { Separator } from "@/components/ui/separator"
 import { StudentTable } from "@/components/student-table"
 import { CreateStudentSheet } from "@/components/create-student-sheet"
+import { TeacherAssignmentTable } from "@/components/teacher-assignment-table"
+import { AdviserAssignmentTable } from "@/components/adviser-assignment-table"
 import { PlusIcon, UploadIcon } from "lucide-react"
 import type { getEnrollmentData } from "@/app/actions/enrollment"
+import type { getAssignmentData } from "@/app/actions/assignment"
 
 type EnrollmentData = Awaited<ReturnType<typeof getEnrollmentData>>
+type AssignmentData = Awaited<ReturnType<typeof getAssignmentData>>
 
-export function EnrollmentTabs(props: EnrollmentData) {
-  const { students, gradeLevelEntries, sections } = props
+type EnrollmentTabsProps = {
+  enrollmentData: EnrollmentData
+  assignmentData: AssignmentData
+}
+
+export function EnrollmentTabs({ enrollmentData, assignmentData }: EnrollmentTabsProps) {
+  const { students, gradeLevelEntries, sections, teachers, advisers } = enrollmentData
+  const { subjectSectionPairs, sections: assignmentSections } = assignmentData
   const [activeTab, setActiveTab] = useState("students")
 
   return (
@@ -66,8 +77,10 @@ export function EnrollmentTabs(props: EnrollmentData) {
           />
         </TabsContent>
         <TabsContent value="assignments" className="pt-4">
-          <div className="text-sm text-muted-foreground py-8 text-center">
-            Assignments content — coming in the next plan.
+          <div className="flex flex-col gap-8">
+            <TeacherAssignmentTable pairs={subjectSectionPairs} teachers={teachers} />
+            <Separator />
+            <AdviserAssignmentTable sections={assignmentSections} advisers={advisers} />
           </div>
         </TabsContent>
       </Tabs>
