@@ -17,11 +17,10 @@ Teachers can input raw scores and the system accurately computes DepEd-standard 
 - ✓ SJA brand logos available in public/sja-logos/ — existing
 - ✓ Role-based authentication (Subject Teacher, Adviser, Principal, Registrar, Admin) — Validated in Phase 1: Foundation & Auth
 - ✓ School structure management (grade levels, sections, strands, subjects, school year/quarters/semesters) — Validated in Phase 2: School Structure
+- ✓ Student enrollment and profile management — Validated in Phase 3: Enrollment & Assignment
+- ✓ Subject-teacher assignment management — Validated in Phase 3: Enrollment & Assignment
 
 ### Active
-
-- [ ] Student enrollment and profile management
-- [ ] Subject-teacher assignment management
 - [ ] Activity definition with max scores per grading component (Written Work, Performance Task, Quarterly Assessment)
 - [ ] Raw score input per student per activity
 - [ ] Auto-computation of grades following DepEd component weights
