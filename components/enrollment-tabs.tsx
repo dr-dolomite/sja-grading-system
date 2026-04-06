@@ -9,7 +9,7 @@ import { CreateStudentSheet } from "@/components/create-student-sheet"
 import { CsvImportSheet } from "@/components/csv-import-sheet"
 import { TeacherAssignmentTable } from "@/components/teacher-assignment-table"
 import { AdviserAssignmentTable } from "@/components/adviser-assignment-table"
-import { PlusIcon, UploadIcon } from "lucide-react"
+import { DownloadIcon, PlusIcon, UploadIcon } from "lucide-react"
 import type { getEnrollmentData } from "@/app/actions/enrollment"
 import type { getAssignmentData } from "@/app/actions/assignment"
 
@@ -25,6 +25,32 @@ export function EnrollmentTabs({ enrollmentData, assignmentData }: EnrollmentTab
   const { students, gradeLevelEntries, sections, teachers, advisers } = enrollmentData
   const { subjectSectionPairs, sections: assignmentSections } = assignmentData
   const [activeTab, setActiveTab] = useState("students")
+
+  function handleExportCsv() {
+    const header = "lrn,lastName,firstName,middleName,gradeLevel,sectionName,strand,sex,contactNumber"
+    const rows = students.map((s) => {
+      const escape = (v: string) => (v.includes(",") ? `"${v}"` : v)
+      return [
+        escape(s.lrn),
+        escape(s.lastName),
+        escape(s.firstName),
+        escape(s.middleName ?? ""),
+        escape(s.section.gradeLevelEntry.gradeLevel),
+        escape(s.section.name),
+        escape(s.section.strand?.name ?? ""),
+        s.sex === "MALE" ? "Male" : "Female",
+        escape(s.contactNumber ?? ""),
+      ].join(",")
+    })
+    const csv = [header, ...rows].join("\n")
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement("a")
+    a.href = url
+    a.download = students.length > 0 ? "students-export.csv" : "student-import-template.csv"
+    a.click()
+    URL.revokeObjectURL(url)
+  }
 
   return (
     <>
@@ -53,6 +79,10 @@ export function EnrollmentTabs({ enrollmentData, assignmentData }: EnrollmentTab
                 </Button>
               }
             />
+            <Button variant="outline" onClick={handleExportCsv}>
+              <DownloadIcon className="size-4 mr-2" />
+              Export CSV
+            </Button>
           </div>
         )}
       </div>
