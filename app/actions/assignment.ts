@@ -94,7 +94,7 @@ export async function assignTeacher(
   formData: FormData,
 ): Promise<AssignTeacherState> {
   const session = await verifySession()
-  if (!session.roles.includes("PRINCIPAL")) {
+  if (!session.roles.includes("ADMIN") && !session.roles.includes("PRINCIPAL")) {
     return { errors: { form: ["Unauthorized."] } }
   }
 
@@ -147,7 +147,7 @@ export async function assignAdviser(
   formData: FormData,
 ): Promise<AssignAdviserState> {
   const session = await verifySession()
-  if (!session.roles.includes("PRINCIPAL")) {
+  if (!session.roles.includes("ADMIN") && !session.roles.includes("PRINCIPAL")) {
     return { errors: { form: ["Unauthorized."] } }
   }
 
