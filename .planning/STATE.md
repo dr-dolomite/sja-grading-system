@@ -108,6 +108,12 @@ Progress: [█████████░] 92%
 
 - PostgreSQL credentials: `postgres` user password unknown. Must update `.env` DATABASE_URL with correct password before running `prisma migrate dev` and `prisma db seed`.
 
+### Quick Tasks Completed
+
+| # | Description | Date | Commit | Directory |
+|---|-------------|------|--------|-----------|
+| 260406-d24 | Add Export CSV button to Students tab | 2026-04-06 | 834237d | [260406-d24](./quick/260406-d24-add-export-csv-button-to-students-tab-ex/) |
+
 ### Todos Carried Forward
 
 *(None yet)*
@@ -126,8 +132,8 @@ Progress: [█████████░] 92%
 
 ## Session Continuity
 
-**Last updated:** 2026-04-02 — Completed 03-04-PLAN.md (CSV bulk import: CsvImportSheet multi-step component, bulkCreateStudents Server Action with per-row skip logic, downloadable CSV template, wired to Import CSV button in EnrollmentTabs).
-**Next action:** Run 03-05-PLAN.md (final Phase 3 plan).
+**Last updated:** 2026-04-06 — Quick task 260406-d24: Added Export CSV button to Students tab.
+**Next action:** Run 03-05-PLAN.md (final Phase 3 plan — human verification).
 
 ---
 *State initialized: 2026-03-30*
