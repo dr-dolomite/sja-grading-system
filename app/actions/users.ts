@@ -215,6 +215,56 @@ export async function updateEmployeeId(
   return { success: true }
 }
 
+// --- Update User (name + roles) ---
+
+export type UpdateUserState = {
+  errors?: {
+    name?: string[]
+    roles?: string[]
+    form?: string[]
+  }
+  success?: boolean
+} | null
+
+const UpdateUserSchema = z.object({
+  userId: z.string().min(1),
+  name: z.string().min(1, { error: "Full name is required." }),
+  roles: z.array(z.enum(ROLE_VALUES)).min(1, { error: "Select at least one role." }),
+})
+
+export async function updateUser(
+  _prevState: UpdateUserState,
+  formData: FormData,
+): Promise<UpdateUserState> {
+  const session = await verifySession()
+  if (!session.roles.includes("ADMIN")) {
+    return { errors: { form: ["Unauthorized."] } }
+  }
+
+  const roles = formData.getAll("roles") as string[]
+
+  const validated = UpdateUserSchema.safeParse({
+    userId: formData.get("userId"),
+    name: formData.get("name"),
+    roles,
+  })
+
+  if (!validated.success) {
+    return { errors: validated.error.flatten().fieldErrors }
+  }
+
+  const { userId, name } = validated.data
+  const validatedRoles = validated.data.roles
+
+  await prisma.user.update({
+    where: { id: userId },
+    data: { name, roles: validatedRoles },
+  })
+
+  revalidatePath("/dashboard/users")
+  return { success: true }
+}
+
 // --- List Users (read-only, not a Server Action — helper for the page) ---
 
 export async function getUsers() {

@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"
 import { ResetPasswordConfirm } from "@/components/reset-password-confirm"
+import { EditUserSheet } from "@/components/edit-user-sheet"
 import { toggleUserActive, updateEmployeeId } from "@/app/actions/users"
 import type { ToggleUserActiveState, UpdateEmployeeIdState } from "@/app/actions/users"
 import { Button } from "@/components/ui/button"
@@ -203,6 +204,16 @@ export function UserTable({
             </TableCell>
             <TableCell className="text-right">
               <div className="flex items-center justify-end gap-2">
+                {user.id !== currentUserId && (
+                  <EditUserSheet
+                    user={user}
+                    trigger={
+                      <Button variant="outline" size="sm">
+                        Edit
+                      </Button>
+                    }
+                  />
+                )}
                 <ResetPasswordConfirm user={user} />
                 <ToggleActiveButton
                   user={user}
