@@ -64,7 +64,7 @@ Plans:
 - [x] 03-02-PLAN.md — Student CRUD, auto-enrollment, enrollment page with Students tab
 - [x] 03-03-PLAN.md — Teacher and adviser assignment tables and Sheet forms
 - [x] 03-04-PLAN.md — CSV bulk import for students
-- [ ] 03-05-PLAN.md — Human verification checkpoint
+- [x] 03-05-PLAN.md — Human verification checkpoint
 **UI hint**: yes
 
 ### Phase 4: Grading Engine
